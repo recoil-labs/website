@@ -1,0 +1,506 @@
+/* Page-level layout for the Recoil Labs site. Everything here is built from
+   the Nocturne tokens in nocturne.css — no raw colors, no magic palette. */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background:
+    radial-gradient(
+      1200px 720px at 82% -160px,
+      color-mix(in srgb, var(--color-accent-900) 75%, transparent),
+      transparent 60%
+    ),
+    radial-gradient(
+      1100px 800px at -10% 100%,
+      color-mix(in srgb, black 30%, transparent),
+      transparent 55%
+    ),
+    var(--color-bg);
+  text-wrap: pretty;
+}
+
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+a:hover {
+  color: var(--color-accent-300);
+}
+
+@keyframes noct-flow {
+  0% { background-position: -140% 0; }
+  100% { background-position: 240% 0; }
+}
+
+@keyframes noct-mark {
+  0%,
+  100% { opacity: 0.55; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.12); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .brand-mark { animation: none; opacity: 1; }
+  .flow-line { animation: none; }
+}
+
+/* ── shared ───────────────────────────────────────────────────────────── */
+
+/* The one horizontal measure the whole page is built on. */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-inline: clamp(20px, 5vw, 72px);
+}
+
+/* Small caps kicker with the 44px accent rule that opens each section. */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 13px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: 24px;
+}
+.eyebrow::before {
+  content: '';
+  width: 44px;
+  height: 1px;
+  background: var(--color-accent);
+}
+
+/* Section headline. Sizes are per-section; this holds the shared shape. */
+.section-title {
+  font-family: var(--font-heading);
+  font-weight: 500;
+  font-size: clamp(30px, 3.4vw, 44px);
+  line-height: 1.14;
+  letter-spacing: -0.015em;
+  margin: 0;
+}
+
+.prose {
+  display: grid;
+  gap: 20px;
+  font-size: 16px;
+  line-height: 1.7;
+  color: color-mix(in srgb, var(--color-text) 78%, transparent);
+  max-width: 56ch;
+}
+.prose p {
+  margin: 0;
+}
+
+/* ── nav ──────────────────────────────────────────────────────────────── */
+
+.site-nav {
+  /* Aligns the nav's own edges with the 1200px container's, then keeps the
+     clamp gutter once the viewport is narrower than the container. */
+  padding-inline: max(
+    clamp(20px, 5vw, 72px),
+    calc((100% - 1200px) / 2 + clamp(20px, 5vw, 72px))
+  );
+  flex-wrap: wrap;
+  row-gap: var(--space-2);
+}
+
+.site-nav .nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  letter-spacing: -0.01em;
+}
+
+.brand-mark {
+  color: var(--color-accent);
+  font-size: 15px;
+  animation: noct-mark 6s ease-in-out infinite;
+}
+
+/* ── hero ─────────────────────────────────────────────────────────────── */
+
+.hero {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-mesh {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.hero-inner {
+  position: relative;
+  padding-block: 112px 84px;
+}
+
+.hero .eyebrow {
+  margin-bottom: 28px;
+}
+
+.hero-title {
+  font-family: var(--font-heading);
+  font-weight: 500;
+  font-size: clamp(42px, 6vw, 84px);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  /* Optical alignment: pulls the glyph edge flush with the text below it. */
+  margin: 0 0 28px -0.06em;
+  max-width: 20ch;
+}
+
+.hero-lede {
+  font-size: 17px;
+  line-height: 1.65;
+  max-width: 58ch;
+  margin: 0;
+  color: color-mix(in srgb, var(--color-text) 82%, transparent);
+}
+
+.hero-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 32px;
+}
+
+/* ── what we build ────────────────────────────────────────────────────── */
+
+.build {
+  padding-block: 84px 0;
+}
+
+.build-split {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(420px, 100%), 1fr));
+  gap: 28px clamp(32px, 6vw, 96px);
+  align-items: start;
+}
+
+.build-split .section-title {
+  max-width: 22ch;
+}
+
+/* Three pillars sharing hairline dividers — the 1px grid gap is the rule.
+   A divider-colored fill sits behind the opaque cells and shows through only
+   in the gaps. The fill is inset 1px so that a container edge landing on a
+   fractional device pixel can't bleed a hairline around the whole row. */
+.pillars {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+  gap: 1px;
+  margin-top: 72px;
+  background-image: linear-gradient(var(--color-divider), var(--color-divider));
+  background-position: 1px 1px;
+  background-size: calc(100% - 2px) calc(100% - 2px);
+  background-repeat: no-repeat;
+}
+
+.pillar {
+  background: var(--color-bg);
+  padding: 32px clamp(20px, 3vw, 36px) 36px;
+}
+/* Outer cells lose their outer padding so the row reads flush to the measure. */
+.pillar:first-child { padding-left: 0; }
+.pillar:last-child { padding-right: 0; }
+
+.pillar::before {
+  content: '';
+  display: block;
+  width: 28px;
+  height: 1px;
+  background: var(--color-accent);
+  margin-bottom: 22px;
+}
+
+.pillar h3 {
+  font-family: var(--font-heading);
+  font-weight: 500;
+  font-size: 21px;
+  line-height: 1.3;
+  margin: 0 0 14px;
+  letter-spacing: -0.01em;
+}
+
+.pillar p {
+  margin: 0;
+  font-size: 15.5px;
+  line-height: 1.7;
+  color: color-mix(in srgb, var(--color-text) 74%, transparent);
+}
+
+/* ── products ─────────────────────────────────────────────────────────── */
+
+.products {
+  padding-block: 112px 0;
+}
+
+.products .section-title {
+  margin-bottom: 56px;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(360px, 100%), 1fr));
+  gap: 24px;
+}
+
+.product {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 36px clamp(24px, 3vw, 40px) 32px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-neutral-800);
+}
+
+/* The flagship carries an accent wash and an accent edge. */
+.product-featured {
+  background: linear-gradient(
+    160deg,
+    color-mix(in srgb, var(--color-accent-900) 60%, var(--color-surface)),
+    var(--color-surface) 62%
+  );
+  border-color: var(--color-accent-800);
+}
+
+.product-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.product-head h3 {
+  font-family: var(--font-heading);
+  font-weight: 500;
+  font-size: 30px;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  margin: 0;
+}
+
+.product-tagline {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: 17px;
+  line-height: 1.5;
+  color: var(--color-accent-300);
+}
+
+.product-body {
+  margin: 0;
+  font-size: 15.5px;
+  line-height: 1.7;
+  color: color-mix(in srgb, var(--color-text) 78%, transparent);
+}
+
+.product-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.product .btn {
+  margin-top: auto;
+  align-self: flex-start;
+}
+
+/* ── approach ─────────────────────────────────────────────────────────── */
+
+.approach {
+  padding-block: 120px 0;
+}
+
+.approach .section-title {
+  font-size: clamp(30px, 3.6vw, 48px);
+  line-height: 1.12;
+  letter-spacing: -0.018em;
+  margin-bottom: 40px;
+  max-width: 26ch;
+}
+
+.approach-prose {
+  max-width: 62ch;
+  line-height: 1.75;
+}
+
+/* The line the whole thesis rests on. */
+.approach-principle {
+  color: var(--color-text);
+  font-family: var(--font-heading);
+  font-size: 19px;
+  line-height: 1.55;
+}
+
+/* Intent → Intelligence → Execution, joined by travelling light. */
+.flow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: clamp(16px, 3vw, 40px);
+  margin-top: 88px;
+  padding-top: 48px;
+  border-top: 1px solid var(--color-divider);
+}
+
+.flow-step {
+  font-family: var(--font-heading);
+  font-weight: 500;
+  font-size: clamp(24px, 3vw, 40px);
+  letter-spacing: -0.015em;
+}
+
+.flow-step-end {
+  color: var(--color-accent-300);
+}
+
+.flow-line {
+  flex: 1;
+  min-width: 60px;
+  height: 1px;
+  background-image: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-accent) 45%,
+    var(--color-accent-300) 50%,
+    var(--color-accent) 55%,
+    transparent
+  );
+  background-size: 220% 100%;
+  background-repeat: no-repeat;
+  animation: noct-flow 4.5s linear infinite;
+}
+/* Offsetting the second line keeps the two pulses from marching in lockstep. */
+.flow-line-delayed {
+  animation-delay: 0.6s;
+}
+
+.approach-note {
+  margin: 32px 0 0;
+  font-size: 15.5px;
+  line-height: 1.7;
+  max-width: 52ch;
+  color: color-mix(in srgb, var(--color-text) 64%, transparent);
+}
+
+/* ── about ────────────────────────────────────────────────────────────── */
+
+.about {
+  padding-block: 120px 0;
+}
+
+.about-split {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(400px, 100%), 1fr));
+  gap: 32px clamp(32px, 6vw, 96px);
+  align-items: start;
+}
+
+.about-split .section-title {
+  max-width: 20ch;
+}
+
+.about-prose {
+  gap: 20px;
+  line-height: 1.75;
+}
+
+.about-facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr));
+  gap: 20px;
+  margin-top: 20px;
+  padding-top: 28px;
+  border-top: 1px solid var(--color-divider);
+  font-family: var(--font-heading);
+  font-size: 16px;
+  line-height: 1.4;
+  color: var(--color-text);
+}
+
+/* ── contact ──────────────────────────────────────────────────────────── */
+
+.contact {
+  padding-block: 128px 0;
+}
+
+.contact h2 {
+  font-family: var(--font-heading);
+  font-weight: 500;
+  font-size: clamp(34px, 4.4vw, 60px);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin: 0 0 28px;
+}
+
+.contact p {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.7;
+  max-width: 56ch;
+  color: color-mix(in srgb, var(--color-text) 80%, transparent);
+}
+
+.contact .btn {
+  margin-top: 32px;
+}
+
+/* ── footer ───────────────────────────────────────────────────────────── */
+
+.site-footer {
+  margin-top: 120px;
+  padding-block: 48px 72px;
+  border-top: 1px solid var(--color-divider);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+  gap: 40px;
+}
+
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-heading);
+  font-size: 15px;
+  letter-spacing: 0.02em;
+}
+.footer-brand span {
+  color: var(--color-accent);
+}
+
+.footer-tagline {
+  margin: 18px 0 0;
+  font-size: 14.5px;
+  line-height: 1.7;
+  color: color-mix(in srgb, var(--color-text) 62%, transparent);
+  max-width: 26ch;
+}
+
+.footer-col {
+  display: grid;
+  gap: 12px;
+  align-content: start;
+  font-size: 14.5px;
+}
+
+.footer-col-title {
+  font-size: 12.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--color-text) 52%, transparent);
+}
+
+.footer-legal {
+  font-size: 13px;
+  color: color-mix(in srgb, var(--color-text) 48%, transparent);
+  align-self: end;
+}

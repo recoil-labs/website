@@ -1,75 +1,60 @@
-# React + TypeScript + Vite
+# Recoil Labs
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Marketing site for Recoil Labs, built with React + TypeScript + Vite.
 
-Currently, two official plugins are available:
+## Running it
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+npm install
+npm run dev      # dev server
+npm run build    # typecheck + production build to dist/
+npm run preview  # serve the production build
+npm run lint
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Structure
 
 ```
+index.html                  document shell, meta tags, font preload
+public/fonts/               Inter, self-hosted (variable woff2 subsets)
+src/
+  App.tsx                   section order
+  styles/
+    fonts.css               @font-face declarations
+    nocturne.css            design system: tokens + component classes
+    site.css                page layout, one block per section
+  components/
+    Nav, Hero, WhatWeBuild, Products, Approach, About, Contact, Footer
+    MeshCanvas.tsx          the hero's animated node mesh
+```
+
+## Design system
+
+`src/styles/nocturne.css` is the source of truth for the site's look — colors,
+type, spacing, radii, elevation, and the shared `.btn` / `.card` / `.tag` /
+`.nav` classes. Nothing outside that file should introduce a raw color or font
+stack; retune the tokens there and the whole site follows.
+
+The palette is a dark ground (`#161826`) with a blurple accent (`#9184d9`) and
+three OKLCH tonal ramps generated on one shared lightness scale, so the same
+step of any role matches the others in visual value.
+
+`src/styles/site.css` holds page-level layout only, built from those tokens.
+
+## Content
+
+Section copy lives in the component that renders it. The repeated lists are
+data arrays at the top of their file — `PILLARS` in `WhatWeBuild.tsx`,
+`PRODUCTS` in `Products.tsx`, `FACTS` in `About.tsx` — so adding a product or
+pillar is a data edit, not a markup edit. The contact address is exported as
+`CONTACT_EMAIL` from `Contact.tsx`.
+
+## Motion
+
+Two ambient animations (`noct-mark` on the brand glyph, `noct-flow` on the
+Intent → Intelligence → Execution rules) plus the hero's canvas mesh. All three
+respect `prefers-reduced-motion`: the CSS animations stop, and `MeshCanvas`
+paints a single static frame instead of running its rAF loop.
+
+`recoil-labs-standalone.html` at the repo root is the original bundled design
+this was built from, kept for reference.
