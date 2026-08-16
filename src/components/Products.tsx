@@ -26,8 +26,14 @@ const PRODUCTS: Product[] = [
     name: 'CivicOS',
     status: { label: 'In development', tone: 'neutral' },
     tagline: 'AI-powered infrastructure for communities and institutions.',
-    body: 'CivicOS helps communities and organizations communicate, coordinate, understand local needs, and turn information into measurable action.',
-    tags: ['AI', 'Civic Technology', 'Communities', 'Accountability'],
+    body: 'CivicOS helps communities and organizations communicate, coordinate, understand local needs, and turn information into measurable action. It is developed as an open source project, in public.',
+    tags: [
+      'Open source',
+      'AI',
+      'Civic Technology',
+      'Communities',
+      'Accountability',
+    ],
     href: '#contact',
   },
 ]

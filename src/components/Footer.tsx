@@ -19,6 +19,7 @@ export default function Footer() {
       <div className="footer-col">
         <span className="footer-col-title">Company</span>
         <a href="#about">About</a>
+        <a href="#open-source">Open source</a>
         <a href="#contact">Contact</a>
       </div>
 

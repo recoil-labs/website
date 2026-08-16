@@ -499,6 +499,31 @@ section[id] {
   align-self: flex-start;
 }
 
+/* ── open source ──────────────────────────────────────────────────────── */
+
+.open-source {
+  padding-block: 120px 0;
+  text-align: center;
+}
+
+.open-source .section-title {
+  margin: 0 auto 40px;
+  max-width: 24ch;
+}
+
+.open-source-prose {
+  max-width: 60ch;
+  margin-inline: auto;
+  line-height: 1.75;
+}
+
+.open-source-principle {
+  color: var(--color-text);
+  font-family: var(--font-heading);
+  font-size: 19px;
+  line-height: 1.55;
+}
+
 /* ── approach ─────────────────────────────────────────────────────────── */
 
 /* Centered throughout. The measure-capped blocks below need margin-inline:
