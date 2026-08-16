@@ -166,9 +166,31 @@ a {
   border: 1px solid transparent;
   padding: var(--space-2) calc(var(--space-3) * 1.2);
   border-radius: var(--radius-md);
+  transition:
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease;
 }
 .btn svg { display: block; }
 .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+/* Trailing arrow on call-to-action buttons; nudges forward on hover, and
+   also when the surrounding product card is hovered. */
+.btn-arrow {
+  display: inline-block;
+  transition: translate 0.3s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.btn:hover .btn-arrow,
+.product:hover .btn-arrow {
+  translate: 4px 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn,
+  .btn-arrow { transition: none; }
+  .btn:hover .btn-arrow,
+  .product:hover .btn-arrow { translate: none; }
+}
 
 .btn-primary {
   color: var(--color-accent);

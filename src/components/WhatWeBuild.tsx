@@ -1,3 +1,5 @@
+import { revealDelay } from '../lib/reveal'
+
 const PILLARS = [
   {
     title: 'Artificial Intelligence',
@@ -16,8 +18,10 @@ const PILLARS = [
 export default function WhatWeBuild() {
   return (
     <section className="container build">
-      <span className="eyebrow">What we build</span>
-      <div className="build-split">
+      <span className="eyebrow" data-reveal>
+        What we build
+      </span>
+      <div className="build-split" data-reveal>
         <h2 className="section-title">
           We build where intelligence meets infrastructure.
         </h2>
@@ -37,10 +41,14 @@ export default function WhatWeBuild() {
       </div>
 
       <div className="pillars">
-        {PILLARS.map((pillar) => (
+        {PILLARS.map((pillar, i) => (
+          // The cell stays opaque (it masks the divider fill); its contents
+          // are what reveal.
           <div className="pillar" key={pillar.title}>
-            <h3>{pillar.title}</h3>
-            <p>{pillar.body}</p>
+            <div className="pillar-body" data-reveal style={revealDelay(i * 110)}>
+              <h3>{pillar.title}</h3>
+              <p>{pillar.body}</p>
+            </div>
           </div>
         ))}
       </div>

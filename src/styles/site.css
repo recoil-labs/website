@@ -6,19 +6,64 @@ html {
 }
 
 body {
-  background:
-    radial-gradient(
-      1200px 720px at 82% -160px,
-      color-mix(in srgb, var(--color-accent-900) 75%, transparent),
-      transparent 60%
-    ),
-    radial-gradient(
-      1100px 800px at -10% 100%,
-      color-mix(in srgb, black 30%, transparent),
-      transparent 55%
-    ),
-    var(--color-bg);
+  background: var(--color-bg);
   text-wrap: pretty;
+}
+
+/* Anchors the aurora layer to the full document rather than the viewport. */
+#root {
+  position: relative;
+}
+
+/* ── background ───────────────────────────────────────────────────────── */
+
+/* The two ambient glows, lifted out of the body background so they can move.
+   Document-anchored, not fixed: they stay in their own corners of the page —
+   which is what keeps them clear of the opaque pillar cells further down. */
+.aurora {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.aurora::before,
+.aurora::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  will-change: translate;
+}
+
+.aurora::before {
+  background: radial-gradient(
+    1200px 720px at 82% -160px,
+    color-mix(in srgb, var(--color-accent-900) 75%, transparent),
+    transparent 60%
+  );
+  animation: aurora-a 34s ease-in-out infinite alternate;
+}
+
+.aurora::after {
+  background: radial-gradient(
+    1100px 800px at -10% 100%,
+    color-mix(in srgb, black 30%, transparent),
+    transparent 55%
+  );
+  animation: aurora-b 46s ease-in-out infinite alternate;
+}
+
+/* Tens of pixels over tens of seconds — the drift should never be something
+   you can catch in the act, only notice between two glances. */
+@keyframes aurora-a {
+  from { translate: 0 0; opacity: 0.82; }
+  to { translate: -60px 40px; opacity: 1; }
+}
+
+@keyframes aurora-b {
+  from { translate: 0 0; opacity: 1; }
+  to { translate: 50px -32px; opacity: 0.8; }
 }
 
 a {
@@ -44,6 +89,43 @@ a:hover {
   html { scroll-behavior: auto; }
   .brand-mark { animation: none; opacity: 1; }
   .flow-line { animation: none; }
+  .aurora::before,
+  .aurora::after { animation: none; }
+  .hero-inner > *,
+  .hero-mesh { animation: none; }
+  /* Reveals resolve to their final state — never leave content hidden. */
+  .reveal-ready [data-reveal] {
+    opacity: 1;
+    translate: none;
+    transition: none;
+  }
+}
+
+/* ── scroll reveals ───────────────────────────────────────────────────── */
+
+/* Hidden only once the observer is live (see lib/reveal.ts). Uses the
+   `translate` property, not `transform`, so element-level hover transforms
+   compose with the reveal instead of overwriting it. */
+.reveal-ready [data-reveal] {
+  opacity: 0;
+  translate: 0 18px;
+}
+
+[data-reveal] {
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 0.61, 0.36, 1),
+    translate 0.7s cubic-bezier(0.22, 0.61, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+[data-reveal].is-revealed {
+  opacity: 1;
+  translate: none;
+}
+
+/* Sticky nav clearance for in-page anchor jumps. */
+section[id] {
+  scroll-margin-top: 88px;
 }
 
 /* ── shared ───────────────────────────────────────────────────────────── */
@@ -120,6 +202,53 @@ a:hover {
   );
   flex-wrap: wrap;
   row-gap: var(--space-2);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  transition:
+    background-color 0.35s ease,
+    box-shadow 0.35s ease,
+    backdrop-filter 0.35s ease;
+}
+
+/* Off the hero, the bar earns a ground of its own so text can pass under it. */
+.site-nav.is-scrolled {
+  background: color-mix(in srgb, var(--color-bg) 82%, transparent);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 1px 0 var(--color-divider);
+}
+
+.site-nav a:not(.btn) {
+  position: relative;
+  transition: color 0.25s ease;
+}
+
+/* Underline wipes in from the left on hover, and stays put for the section
+   you're currently reading. */
+.site-nav a:not(.btn)::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -5px;
+  height: 1px;
+  background: var(--color-accent);
+  scale: 0 1;
+  transform-origin: left center;
+  transition: scale 0.3s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.site-nav a:not(.btn):hover::after,
+.site-nav a:not(.btn)[aria-current='page']::after {
+  scale: 1 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-nav,
+  .site-nav a:not(.btn),
+  .site-nav a:not(.btn)::after {
+    transition: none;
+  }
 }
 
 .site-nav .nav-brand {
@@ -148,7 +277,29 @@ a:hover {
   width: 100%;
   height: 100%;
   pointer-events: none;
+  /* The constellation resolves slowly, behind the copy landing in front. */
+  animation: mesh-in 2.4s ease-out backwards;
 }
+
+@keyframes mesh-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Hero entrance: the copy rises in sequence on load. `backwards` fill holds
+   each line hidden through its delay instead of flashing first. */
+@keyframes hero-rise {
+  from { opacity: 0; translate: 0 22px; }
+  to { opacity: 1; translate: none; }
+}
+
+.hero-inner > * {
+  animation: hero-rise 0.9s cubic-bezier(0.22, 0.61, 0.36, 1) backwards;
+}
+.hero .eyebrow { animation-delay: 0.06s; }
+.hero-title { animation-delay: 0.16s; }
+.hero-lede { animation-delay: 0.32s; }
+.hero-actions { animation-delay: 0.44s; }
 
 .hero-inner {
   position: relative;
@@ -226,7 +377,7 @@ a:hover {
 .pillar:first-child { padding-left: 0; }
 .pillar:last-child { padding-right: 0; }
 
-.pillar::before {
+.pillar-body::before {
   content: '';
   display: block;
   width: 28px;
@@ -276,6 +427,23 @@ a:hover {
   padding: 36px clamp(24px, 3vw, 40px) 32px;
   background: var(--color-surface);
   border: 1px solid var(--color-neutral-800);
+  /* transform, not translate — the reveal owns `translate`, so the two
+     compose and a card can be hovered mid-reveal without snapping. */
+  transition:
+    transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1),
+    border-color 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+.product:hover {
+  transform: translateY(-4px);
+  border-color: var(--color-accent-600);
+  box-shadow: var(--shadow-lg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .product { transition: border-color 0.35s ease; }
+  .product:hover { transform: none; }
 }
 
 /* The flagship carries an accent wash and an accent edge. */

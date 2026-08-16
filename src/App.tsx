@@ -6,10 +6,14 @@ import Approach from './components/Approach'
 import About from './components/About'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
+import { useScrollReveal } from './lib/reveal'
 
 export default function App() {
+  useScrollReveal()
+
   return (
     <>
+      <div className="aurora" aria-hidden="true" />
       <Nav />
       <main>
         <Hero />

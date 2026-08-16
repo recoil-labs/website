@@ -1,6 +1,6 @@
 export default function Footer() {
   return (
-    <footer className="container site-footer">
+    <footer className="container site-footer" data-reveal>
       <div>
         <span className="footer-brand">
           <span aria-hidden="true">◈</span>RECOIL LABS

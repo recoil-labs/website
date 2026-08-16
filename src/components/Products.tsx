@@ -1,3 +1,5 @@
+import { revealDelay } from '../lib/reveal'
+
 interface Product {
   name: string
   /** Rendered as the status pill beside the name. Omit to show none. */
@@ -33,14 +35,20 @@ const PRODUCTS: Product[] = [
 export default function Products() {
   return (
     <section id="products" className="container products">
-      <span className="eyebrow eyebrow-center">Our products</span>
-      <h2 className="section-title">Two products, one idea.</h2>
+      <span className="eyebrow eyebrow-center" data-reveal>
+        Our products
+      </span>
+      <h2 className="section-title" data-reveal style={revealDelay(80)}>
+        Two products, one idea.
+      </h2>
 
       <div className="product-grid">
-        {PRODUCTS.map((product) => (
+        {PRODUCTS.map((product, i) => (
           <article
             key={product.name}
             className={`card elev-md product${product.featured ? ' product-featured' : ''}`}
+            data-reveal
+            style={revealDelay(160 + i * 120)}
           >
             <div className="product-head">
               <h3>{product.name}</h3>
@@ -63,7 +71,10 @@ export default function Products() {
               className={`btn ${product.featured ? 'btn-primary' : 'btn-ghost'}`}
               href={product.href}
             >
-              Explore {product.name} →
+              Explore {product.name}
+              <span className="btn-arrow" aria-hidden="true">
+                →
+              </span>
             </a>
           </article>
         ))}
