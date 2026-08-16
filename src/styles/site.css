@@ -73,6 +73,20 @@ a:hover {
   background: var(--color-accent);
 }
 
+/* Centered variant. Takes a rule on both sides — a single left rule over
+   centered text reads as lopsided — and goes block-level so it centers
+   itself regardless of the parent's text-align. */
+.eyebrow-center {
+  display: flex;
+  justify-content: center;
+}
+.eyebrow-center::after {
+  content: '';
+  width: 44px;
+  height: 1px;
+  background: var(--color-accent);
+}
+
 /* Section headline. Sizes are per-section; this holds the shared shape. */
 .section-title {
   font-family: var(--font-heading);
@@ -139,6 +153,7 @@ a:hover {
 .hero-inner {
   position: relative;
   padding-block: 112px 84px;
+  text-align: center;
 }
 
 .hero .eyebrow {
@@ -151,8 +166,7 @@ a:hover {
   font-size: clamp(42px, 6vw, 84px);
   line-height: 1.08;
   letter-spacing: -0.02em;
-  /* Optical alignment: pulls the glyph edge flush with the text below it. */
-  margin: 0 0 28px -0.06em;
+  margin: 0 auto 28px;
   max-width: 20ch;
 }
 
@@ -160,12 +174,13 @@ a:hover {
   font-size: 17px;
   line-height: 1.65;
   max-width: 58ch;
-  margin: 0;
+  margin: 0 auto;
   color: color-mix(in srgb, var(--color-text) 82%, transparent);
 }
 
 .hero-actions {
   display: flex;
+  justify-content: center;
   gap: 12px;
   flex-wrap: wrap;
   margin-top: 32px;
@@ -242,8 +257,10 @@ a:hover {
   padding-block: 112px 0;
 }
 
+/* Centered header over a left-aligned card grid. */
 .products .section-title {
   margin-bottom: 56px;
+  text-align: center;
 }
 
 .product-grid {
@@ -316,20 +333,24 @@ a:hover {
 
 /* ── approach ─────────────────────────────────────────────────────────── */
 
+/* Centered throughout. The measure-capped blocks below need margin-inline:
+   auto as well — text-align centers the lines, not the box holding them. */
 .approach {
   padding-block: 120px 0;
+  text-align: center;
 }
 
 .approach .section-title {
   font-size: clamp(30px, 3.6vw, 48px);
   line-height: 1.12;
   letter-spacing: -0.018em;
-  margin-bottom: 40px;
+  margin: 0 auto 40px;
   max-width: 26ch;
 }
 
 .approach-prose {
   max-width: 62ch;
+  margin-inline: auto;
   line-height: 1.75;
 }
 
@@ -385,7 +406,7 @@ a:hover {
 }
 
 .approach-note {
-  margin: 32px 0 0;
+  margin: 32px auto 0;
   font-size: 15.5px;
   line-height: 1.7;
   max-width: 52ch;
@@ -431,6 +452,7 @@ a:hover {
 
 .contact {
   padding-block: 128px 0;
+  text-align: center;
 }
 
 .contact h2 {
@@ -443,7 +465,8 @@ a:hover {
 }
 
 .contact p {
-  margin: 0;
+  /* auto margins center the 56ch measure; text-align only centers its lines */
+  margin: 0 auto;
   font-size: 17px;
   line-height: 1.7;
   max-width: 56ch;

@@ -1,7 +1,7 @@
 export default function Approach() {
   return (
     <section id="approach" className="container approach">
-      <span className="eyebrow">Our approach</span>
+      <span className="eyebrow eyebrow-center">Our approach</span>
       <h2 className="section-title">
         Complex systems shouldn’t require complex experiences.
       </h2>

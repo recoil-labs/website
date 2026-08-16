@@ -33,7 +33,7 @@ const PRODUCTS: Product[] = [
 export default function Products() {
   return (
     <section id="products" className="container products">
-      <span className="eyebrow">Our products</span>
+      <span className="eyebrow eyebrow-center">Our products</span>
       <h2 className="section-title">Two products, one idea.</h2>
 
       <div className="product-grid">

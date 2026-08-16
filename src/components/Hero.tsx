@@ -5,7 +5,7 @@ export default function Hero() {
     <section className="hero">
       <MeshCanvas className="hero-mesh" />
       <div className="container hero-inner">
-        <span className="eyebrow">Recoil Labs</span>
+        <span className="eyebrow eyebrow-center">Recoil Labs</span>
         <h1 className="hero-title">
           Building intelligent systems for an open digital world.
         </h1>
