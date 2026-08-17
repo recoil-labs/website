@@ -3,6 +3,7 @@ import Hero from './components/Hero'
 import WhatWeBuild from './components/WhatWeBuild'
 import Products from './components/Products'
 import OpenSource from './components/OpenSource'
+import BuildWithRecoil from './components/BuildWithRecoil'
 import Approach from './components/Approach'
 import About from './components/About'
 import Writing from './components/Writing'
@@ -23,6 +24,7 @@ export default function App() {
         <WhatWeBuild />
         <Products />
         <OpenSource />
+        <BuildWithRecoil />
         <Approach />
         <About />
         <Writing />

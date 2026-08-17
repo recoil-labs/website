@@ -402,6 +402,16 @@ section[id] {
   color: color-mix(in srgb, var(--color-text) 74%, transparent);
 }
 
+/* Breadth at a glance, under the three pillars. */
+.capabilities {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 40px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
 /* ── products ─────────────────────────────────────────────────────────── */
 
 .products {
@@ -497,6 +507,146 @@ section[id] {
 .product .btn {
   margin-top: auto;
   align-self: flex-start;
+}
+
+/* ── build with recoil ────────────────────────────────────────────────── */
+
+.build-with {
+  padding-block: 120px 0;
+}
+
+.build-with .section-title {
+  margin: 0 auto 24px;
+  max-width: 24ch;
+  text-align: center;
+}
+
+.build-with-lede {
+  margin: 0 auto 56px;
+  max-width: 58ch;
+  text-align: center;
+  font-size: 16.5px;
+  line-height: 1.7;
+  color: color-mix(in srgb, var(--color-text) 78%, transparent);
+}
+
+/* Sized so all four disciplines sit on one row at the full measure — a lone
+   orphan card on a second row reads as a mistake rather than a taxonomy. */
+.service-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(232px, 100%), 1fr));
+  gap: 16px;
+}
+
+.service {
+  gap: 16px;
+  padding: 26px clamp(18px, 1.8vw, 24px) 28px;
+  border: 1px solid var(--color-neutral-800);
+}
+
+.service h3 {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+.service ul,
+.consulting-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.service ul {
+  display: grid;
+  gap: 8px;
+}
+
+/* Accent dot as the bullet, optically aligned to the first line's x-height. */
+.service li,
+.consulting-list li {
+  display: flex;
+  gap: 9px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: color-mix(in srgb, var(--color-text) 76%, transparent);
+}
+
+.service li::before,
+.consulting-list li::before {
+  content: '';
+  flex: none;
+  width: 4px;
+  height: 4px;
+  margin-top: 0.55em;
+  border-radius: 50%;
+  background: var(--color-accent);
+}
+
+/* Consulting is a distinct offer, so it gets the accent treatment and a
+   two-column split rather than sitting in the discipline grid. */
+.consulting {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+  gap: 24px clamp(32px, 5vw, 72px);
+  margin-top: 20px;
+  padding: 34px clamp(24px, 3vw, 40px) 36px;
+  border: 1px solid var(--color-accent-800);
+  background: linear-gradient(
+    160deg,
+    color-mix(in srgb, var(--color-accent-900) 60%, var(--color-surface)),
+    var(--color-surface) 62%
+  );
+}
+
+.consulting-intro h3 {
+  margin: 0 0 12px;
+  font-family: var(--font-heading);
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+}
+
+.consulting-intro p {
+  margin: 0;
+  font-size: 15.5px;
+  line-height: 1.7;
+  color: color-mix(in srgb, var(--color-text) 80%, transparent);
+  max-width: 42ch;
+}
+
+.consulting-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+  gap: 9px clamp(16px, 3vw, 32px);
+  align-content: start;
+}
+
+.build-with-close {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px clamp(24px, 4vw, 56px);
+  margin-top: 44px;
+  padding-top: 36px;
+  border-top: 1px solid var(--color-divider);
+}
+
+.build-with-close p {
+  margin: 0;
+  max-width: 62ch;
+  font-size: 15.5px;
+  line-height: 1.7;
+  color: color-mix(in srgb, var(--color-text) 68%, transparent);
+}
+
+.build-with-close .btn {
+  flex: none;
 }
 
 /* ── open source ──────────────────────────────────────────────────────── */

@@ -1,5 +1,14 @@
 import { revealDelay } from '../lib/reveal'
 
+/** The domains the lab works across, in products and partnerships alike. */
+const CAPABILITIES = [
+  'AI',
+  'Blockchain',
+  'Web2',
+  'Web3',
+  'Decentralized infrastructure',
+]
+
 const PILLARS = [
   {
     title: 'Artificial Intelligence',
@@ -23,7 +32,7 @@ export default function WhatWeBuild() {
       </span>
       <div className="build-split" data-reveal>
         <h2 className="section-title">
-          We build where intelligence meets infrastructure
+          We build intelligent products and the technology behind them
         </h2>
         <div className="prose">
           <p>
@@ -35,7 +44,8 @@ export default function WhatWeBuild() {
           <p>
             We combine AI, decentralized networks, intelligent routing, and
             automation to create systems that help people and organizations move
-            from intention to action.
+            from intention to action — in our own products, and in the ones we
+            build alongside others.
           </p>
         </div>
       </div>
@@ -52,6 +62,14 @@ export default function WhatWeBuild() {
           </div>
         ))}
       </div>
+
+      <ul className="capabilities" data-reveal>
+        {CAPABILITIES.map((capability) => (
+          <li className="tag tag-outline" key={capability}>
+            {capability}
+          </li>
+        ))}
+      </ul>
     </section>
   )
 }

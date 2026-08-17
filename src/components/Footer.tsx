@@ -20,6 +20,12 @@ export default function Footer() {
       </div>
 
       <div className="footer-col">
+        <span className="footer-col-title">Work with us</span>
+        <a href="#build">Build with Recoil</a>
+        <a href="#build">Consulting</a>
+      </div>
+
+      <div className="footer-col">
         <span className="footer-col-title">Company</span>
         <a href="#about">About</a>
         <a href="#writing">Writing</a>
