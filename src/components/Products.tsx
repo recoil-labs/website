@@ -45,7 +45,7 @@ export default function Products() {
         Our products
       </span>
       <h2 className="section-title" data-reveal style={revealDelay(80)}>
-        Two products, one idea.
+        Two products, one idea
       </h2>
 
       <div className="product-grid">

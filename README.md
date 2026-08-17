@@ -2,6 +2,11 @@
 
 Marketing site for Recoil Labs, built with React + TypeScript + Vite.
 
+Recoil Labs is positioned as a technology lab with two arms: its own products
+(RecoilPay, CivicOS) and selective engineering/consulting partnerships
+("Build with Recoil"). The page order reflects that — products first, then the
+partnership offer, so the lab is never mistaken for a general software agency.
+
 ## Running it
 
 ```bash
@@ -23,10 +28,25 @@ src/
     fonts.css               @font-face declarations
     nocturne.css            design system: tokens + component classes
     site.css                page layout, one block per section
+  lib/reveal.ts             scroll-reveal observer + stagger helper
   components/
-    Nav, Hero, WhatWeBuild, Products, Approach, About, Contact, Footer
+    Nav, Hero, WhatWeBuild, Products, OpenSource, BuildWithRecoil,
+    Approach, About, Writing, Newsletter, Contact, Footer
     MeshCanvas.tsx          the hero's animated node mesh
+    SocialLinks.tsx         footer social buttons
 ```
+
+## Values that still need filling in
+
+Three places hold deliberate placeholders rather than guessed values:
+
+- `SocialLinks.tsx` — every `href` is `'#'`. Real profile URLs were not inferred
+  from the company name, since an unclaimed handle may belong to someone else.
+- `Writing.tsx` — the three posts are structural examples with `'#'` hrefs.
+  This section lists posts; it does not host them (that needs routing or a CMS).
+- `Newsletter.tsx` — `NEWSLETTER_ENDPOINT` is empty. The submit path is fully
+  implemented, but while unset the form reports that signup is not connected
+  instead of showing a false success.
 
 ## Design system
 

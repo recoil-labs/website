@@ -7,19 +7,20 @@ export default function Hero() {
       <div className="container hero-inner">
         <span className="eyebrow eyebrow-center">Recoil Labs</span>
         <h1 className="hero-title">
-          Building intelligent systems for an open digital world.
+          Building intelligent systems for an open digital world
         </h1>
         <p className="hero-lede">
-          Recoil Labs is a technology company building applications at the
-          intersection of artificial intelligence, blockchain, and decentralized
-          infrastructure.
+          Recoil Labs is a technology lab working at the intersection of
+          artificial intelligence, blockchain, and decentralized infrastructure
+          — building our own products, and building with the organizations who
+          need that expertise.
         </p>
         <div className="hero-actions">
           <a className="btn btn-primary" href="#products">
-            Explore our products
+            Explore our work
           </a>
-          <a className="btn btn-ghost" href="#contact">
-            Get in touch
+          <a className="btn btn-ghost" href="#build">
+            Build with us
           </a>
         </div>
       </div>
