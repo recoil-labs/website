@@ -641,6 +641,156 @@ section[id] {
   color: var(--color-text);
 }
 
+/* ── writing ──────────────────────────────────────────────────────────── */
+
+.writing {
+  padding-block: 120px 0;
+}
+
+.writing .section-title {
+  margin: 0 auto 56px;
+  text-align: center;
+}
+
+.post-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+  gap: 20px;
+}
+
+/* Whole card is the link target, so the hit area matches what's on screen. */
+.post {
+  gap: 12px;
+  padding: 26px clamp(20px, 2.4vw, 30px) 24px;
+  color: inherit;
+  text-decoration: none;
+  border: 1px solid var(--color-neutral-800);
+  transition:
+    transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1),
+    border-color 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+.post:hover {
+  color: inherit;
+  transform: translateY(-3px);
+  border-color: var(--color-accent-600);
+  box-shadow: var(--shadow-md);
+}
+
+.post .card-title {
+  transition: color 0.25s ease;
+}
+.post:hover .card-title {
+  color: var(--color-accent-300);
+}
+
+.post .card-body {
+  line-height: 1.65;
+}
+
+.post .card-meta {
+  margin-top: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .post { transition: border-color 0.35s ease; }
+  .post:hover { transform: none; }
+}
+
+/* ── newsletter ───────────────────────────────────────────────────────── */
+
+.newsletter {
+  padding-block: 112px 0;
+}
+
+.newsletter-inner {
+  max-width: 640px;
+  margin-inline: auto;
+  padding: clamp(28px, 4vw, 44px) clamp(24px, 4vw, 48px);
+  text-align: center;
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(
+    160deg,
+    color-mix(in srgb, var(--color-accent-900) 45%, var(--color-surface)),
+    var(--color-surface) 70%
+  );
+}
+
+.newsletter-title {
+  font-family: var(--font-heading);
+  font-weight: 500;
+  font-size: clamp(24px, 2.6vw, 32px);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  margin: 0 0 14px;
+}
+
+.newsletter-lede {
+  margin: 0 auto;
+  max-width: 46ch;
+  font-size: 15.5px;
+  line-height: 1.7;
+  color: color-mix(in srgb, var(--color-text) 76%, transparent);
+}
+
+/* Input and button share a baseline; the label is visually hidden but stays
+   in the accessibility tree so the field is never unlabelled. */
+.newsletter-form {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 26px;
+}
+
+.newsletter-field {
+  flex: 1 1 260px;
+  max-width: 340px;
+  text-align: left;
+}
+
+.newsletter-field > label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.newsletter-status {
+  min-height: 1.4em;
+  margin: 14px 0 0;
+  font-size: 13px;
+  line-height: 1.4;
+}
+.newsletter-status.is-success {
+  color: var(--color-accent-300);
+}
+.newsletter-status.is-error {
+  color: color-mix(in srgb, var(--color-text) 70%, transparent);
+}
+
+/* ── social ───────────────────────────────────────────────────────────── */
+
+.social-links {
+  display: flex;
+  gap: 8px;
+  margin: 22px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.social-links a:hover {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
 /* ── contact ──────────────────────────────────────────────────────────── */
 
 .contact {

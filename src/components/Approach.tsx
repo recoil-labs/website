@@ -7,7 +7,7 @@ export default function Approach() {
         Our approach
       </span>
       <h2 className="section-title" data-reveal style={revealDelay(80)}>
-        Complex systems shouldn’t require complex experiences.
+        Complex systems shouldn’t require complex experiences
       </h2>
 
       <div className="prose approach-prose" data-reveal style={revealDelay(160)}>

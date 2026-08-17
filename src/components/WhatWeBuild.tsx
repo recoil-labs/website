@@ -23,7 +23,7 @@ export default function WhatWeBuild() {
       </span>
       <div className="build-split" data-reveal>
         <h2 className="section-title">
-          We build where intelligence meets infrastructure.
+          We build where intelligence meets infrastructure
         </h2>
         <div className="prose">
           <p>

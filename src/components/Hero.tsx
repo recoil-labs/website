@@ -7,7 +7,7 @@ export default function Hero() {
       <div className="container hero-inner">
         <span className="eyebrow eyebrow-center">Recoil Labs</span>
         <h1 className="hero-title">
-          Building intelligent systems for an open digital world.
+          Building intelligent systems for an open digital world
         </h1>
         <p className="hero-lede">
           Recoil Labs is a technology company building applications at the

@@ -8,7 +8,7 @@ export default function About() {
       <div className="about-split">
         <div data-reveal>
           <span className="eyebrow">About</span>
-          <h2 className="section-title">A small lab with ambitious ideas.</h2>
+          <h2 className="section-title">A small lab with ambitious ideas</h2>
         </div>
         <div className="prose about-prose" data-reveal style={revealDelay(120)}>
           <p>

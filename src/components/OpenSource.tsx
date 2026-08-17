@@ -7,7 +7,7 @@ export default function OpenSource() {
         Open source
       </span>
       <h2 className="section-title" data-reveal style={revealDelay(80)}>
-        Built in the open.
+        Built in the open
       </h2>
 
       <div className="prose open-source-prose" data-reveal style={revealDelay(160)}>

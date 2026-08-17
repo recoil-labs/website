@@ -1,3 +1,5 @@
+import SocialLinks from './SocialLinks'
+
 export default function Footer() {
   return (
     <footer className="container site-footer" data-reveal>
@@ -8,6 +10,7 @@ export default function Footer() {
         <p className="footer-tagline">
           Building intelligent systems for an open digital world.
         </p>
+        <SocialLinks />
       </div>
 
       <div className="footer-col">
@@ -19,6 +22,7 @@ export default function Footer() {
       <div className="footer-col">
         <span className="footer-col-title">Company</span>
         <a href="#about">About</a>
+        <a href="#writing">Writing</a>
         <a href="#open-source">Open source</a>
         <a href="#contact">Contact</a>
       </div>
