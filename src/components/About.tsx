@@ -9,7 +9,7 @@ export default function About() {
         <div data-reveal>
           <span className="eyebrow">About</span>
           <h2 className="section-title">
-            A technology lab building products and solving hard problems
+            A technology and research lab building products and solving hard problems
           </h2>
         </div>
         <div className="prose about-prose" data-reveal style={revealDelay(120)}>
@@ -21,7 +21,7 @@ export default function About() {
           <p>
             We are building products for a world where software can understand
             intent, coordinate across complex systems, and help people turn
-            ideas into action — and we take that same engineering into a small
+            ideas into action and we take that same engineering into a small
             number of partnerships each year.
           </p>
           <div className="about-facts">
