@@ -104,7 +104,7 @@ export default function BuildWithRecoil() {
           <h3>Consulting</h3>
           <p>
             Need help figuring out what to build? We help organizations turn
-            technical ideas into practical products — before a line of code is
+            technical ideas into practical products before a line of code is
             committed to.
           </p>
         </div>
@@ -118,7 +118,7 @@ export default function BuildWithRecoil() {
       <div className="build-with-close" data-reveal>
         <p>
           We keep this work selective. We take on the projects where the hard
-          part is the point — where depth in AI, distributed systems, and
+          part is the point where depth in AI, distributed systems, and
           product engineering changes what is actually possible to build.
         </p>
         <a

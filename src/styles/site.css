@@ -446,7 +446,7 @@ section[id] {
 }
 
 .product:hover {
-  transform: translateY(-4px);
+  transform: translateY(-10px);
   border-color: var(--color-accent-600);
   box-shadow: var(--shadow-lg);
 }
@@ -467,10 +467,20 @@ section[id] {
 }
 
 .product-head {
+  position: relative;
   display: flex;
   align-items: baseline;
-  justify-content: space-between;
+  justify-content: center;
   gap: 16px;
+}
+
+/* Out of flow, so the title centres on the card rather than on the space
+   the pill leaves behind. transform, not translate — see `.product`. */
+.product-head .tag {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .product-head h3 {
@@ -506,7 +516,7 @@ section[id] {
 
 .product .btn {
   margin-top: auto;
-  align-self: flex-start;
+  align-self: center;
 }
 
 /* ── build with recoil ────────────────────────────────────────────────── */

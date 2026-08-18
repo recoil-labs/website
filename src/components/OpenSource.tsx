@@ -17,7 +17,7 @@ export default function OpenSource() {
           shouldn’t be a black box.
         </p>
         <p>
-          Its source is public — so anyone can read it, audit what it actually
+          Its source is public so anyone can read it, audit what it actually
           does, contribute to it, or run it themselves.
         </p>
         <p className="open-source-principle">
