@@ -179,18 +179,22 @@ section[id] {
 /* Section headline. Sizes are per-section; this holds the shared shape. */
 .section-title {
   font-family: var(--font-heading);
-  font-weight: 500;
-  font-size: clamp(30px, 3.4vw, 44px);
-  line-height: 1.14;
-  letter-spacing: -0.015em;
+  font-weight: var(--font-heading-weight);
+  font-size: clamp(30px, 3.4vw, 42px);
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-display);
   margin: 0;
 }
 
+/* Long-form copy sits on the body scale. The leading is kept looser than
+   the 1.45 that scale specifies: this is reading text at a 56ch measure,
+   not the dense UI copy the value was measured from. */
 .prose {
   display: grid;
   gap: 20px;
-  font-size: 16px;
+  font-size: 14.5px;
   line-height: 1.7;
+  letter-spacing: var(--tracking-body);
   color: color-mix(in srgb, var(--color-text) 78%, transparent);
   max-width: 56ch;
 }
@@ -323,12 +327,15 @@ section[id] {
   margin-bottom: 28px;
 }
 
+/* 80px at the top end is the measured hero size; the clamp is kept rather
+   than fixing it, since that site's 80px is a desktop-only value and this
+   headline is three lines rather than one word. */
 .hero-title {
   font-family: var(--font-heading);
-  font-weight: 500;
-  font-size: clamp(42px, 6vw, 84px);
-  line-height: 1.08;
-  letter-spacing: -0.02em;
+  font-weight: var(--font-heading-weight);
+  font-size: clamp(42px, 6vw, 80px);
+  line-height: var(--leading-hero);
+  letter-spacing: var(--tracking-hero);
   margin: 0 auto 28px;
   max-width: 20ch;
 }

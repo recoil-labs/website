@@ -16,7 +16,9 @@ export default function Footer() {
       <div className="footer-col">
         <span className="footer-col-title">Products</span>
         <a href="#products">RecoilPay</a>
-        <a href="#products">CivicOS</a>
+        <a href="https://civicos.ng/" target="_blank" rel="noreferrer noopener">
+          CivicOS
+        </a>
       </div>
 
       <div className="footer-col">

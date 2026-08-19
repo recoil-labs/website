@@ -42,6 +42,15 @@ export function useSmoothScroll() {
       ignoreMobileResize: true,
     })
 
+    /** Scrolls to whatever `#id` the URL currently names, if it names one. */
+    const scrollToHash = (smooth: boolean) => {
+      const id = location.hash.slice(1)
+      if (!id) return
+      const target = document.getElementById(id)
+      if (!target) return
+      smoother.scrollTo(target, smooth, ANCHOR_POSITION)
+    }
+
     const onAnchorClick = (event: MouseEvent) => {
       // Let modified clicks (new tab, download, …) behave normally.
       if (event.defaultPrevented || event.button !== 0) return
@@ -64,14 +73,36 @@ export function useSmoothScroll() {
       history.replaceState(null, '', `#${id}`)
     }
 
-    document.addEventListener('click', onAnchorClick)
+    /* A hash the page was *loaded* with never reaches the click handler
+       above, and the browser's own jump for it does not survive
+       ScrollSmoother taking the scroll over — so `/#writing` would land at
+       the top of the page with the anchor ignored entirely. The jump has to
+       be reissued here, through the smoother, once measurements are good. */
+    const onHashChange = () => scrollToHash(false)
+    window.addEventListener('hashchange', onHashChange)
 
-    // Web fonts land after first paint and change every heading's height,
-    // which moves every trigger below them. Re-measure once they're in.
-    document.fonts?.ready.then(() => ScrollTrigger.refresh())
+    /* Stop the browser restoring a scroll position of its own on reload:
+       it restores against untransformed layout, which lands somewhere
+       unrelated and then fights the jump below. */
+    const previousRestoration = history.scrollRestoration
+    history.scrollRestoration = 'manual'
+
+    /* Web fonts land after first paint and change every heading's height,
+       which moves every trigger below them. Re-measure once they're in —
+       and only then act on the hash, since jumping to a target measured
+       against pre-font layout is what puts it off by a section. The
+       fallback keeps this working where `document.fonts` is unavailable,
+       rather than silently never firing. */
+    const fontsReady = document.fonts?.ready ?? Promise.resolve()
+    fontsReady.then(() => {
+      ScrollTrigger.refresh()
+      scrollToHash(false)
+    })
 
     return () => {
       document.removeEventListener('click', onAnchorClick)
+      window.removeEventListener('hashchange', onHashChange)
+      history.scrollRestoration = previousRestoration
       smoother.kill()
     }
   }, [])

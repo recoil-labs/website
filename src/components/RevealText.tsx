@@ -43,15 +43,30 @@ export default function RevealText({
     // Reduced motion keeps the text exactly as authored — no split, no
     // wrappers, nothing for a screen reader to have to reassemble.
     if (prefersReducedMotion()) return
+    const el = ref.current
+    if (!el) return
 
-    return createGsapContext(ref.current, () => {
-      SplitText.create(ref.current, {
+    /* Headings the viewport has already passed are left alone entirely.
+       Splitting them would only set up an entrance that has no chance to
+       play — and an unplayed `from` tween strands the words at their start
+       values, which is a heading that never appears. Same failure the
+       scroll reveals had on anchor jumps; here the cheapest fix is simply
+       not to animate what the reader has already arrived at. */
+    if (el.getBoundingClientRect().top < window.innerHeight * 0.85) return
+
+    return createGsapContext(el, () => {
+      SplitText.create(el, {
         type: 'words,lines',
         mask: 'lines',
         // Restores the original markup on revert, and labels the element so
         // assistive tech reads the sentence rather than the word soup.
         aria: 'auto',
-        autoSplit: true,
+        /* No `autoSplit`. Re-splitting mid-flight kills the tween that is
+           running and builds a new one whose ScrollTrigger has already been
+           passed, so it never plays — the words freeze part-lit, at
+           whatever opacity the stagger had reached, inside line masks
+           measured for a width the text no longer occupies. Splitting once
+           and reverting below removes the whole failure mode. */
         onSplit: (self) =>
           gsap.from(self.words, {
             yPercent: 110,
@@ -60,10 +75,15 @@ export default function RevealText({
             ease: EASE,
             stagger,
             scrollTrigger: {
-              trigger: ref.current,
+              trigger: el,
               start: 'top 85%',
               once: true,
             },
+            /* The split exists only to stage the entrance. Once that has
+               played, put the original markup back: no clipping wrappers
+               left to go stale on the next reflow, and no split for a
+               resize to have an opinion about. */
+            onComplete: () => self.revert(),
           }),
       })
     })
