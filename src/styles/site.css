@@ -626,6 +626,83 @@ section[id] {
   border: 1px solid var(--color-neutral-800);
 }
 
+/* ── card spotlight ───────────────────────────────────────────────────────
+   A highlight that follows the cursor across the card, positioned from the
+   `--mx`/`--my` that lib/spotlight.ts publishes. The fallback centres it,
+   so a card that has never been hovered — or one whose script never ran —
+   still lights up sensibly from the middle rather than the top-left corner. */
+
+.service,
+.consulting {
+  position: relative;
+  /* `transform` for the lift, never `translate`: the reveal owns `translate`
+     (see the scroll-reveal block above), and the two compose only because
+     they are kept on separate properties. */
+  transition:
+    transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1),
+    border-color 0.35s ease;
+}
+
+.service::before,
+.consulting::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    260px circle at var(--mx, 50%) var(--my, 50%),
+    color-mix(in srgb, var(--color-accent) 20%, transparent),
+    transparent 68%
+  );
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+/* The highlight is a child, so it would otherwise paint over the copy. */
+.service > *,
+.consulting > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Gated on a real hover device: on touch these would latch on first tap and
+   never release. */
+@media (hover: hover) {
+  .service:hover,
+  .consulting:hover {
+    transform: translateY(-3px);
+  }
+
+  .service:hover {
+    border-color: var(--color-accent-800);
+  }
+
+  .consulting:hover {
+    border-color: var(--color-accent);
+  }
+
+  .service:hover::before,
+  .consulting:hover::before {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .service,
+  .consulting,
+  .service::before,
+  .consulting::before {
+    transition: none;
+  }
+  /* The border still responds, so hover stays legible without the lift. */
+  .service:hover,
+  .consulting:hover {
+    transform: none;
+  }
+}
+
 .service h3 {
   margin: 0;
   font-family: var(--font-heading);
@@ -907,10 +984,13 @@ section[id] {
   gap: 20px;
 }
 
-/* Whole card is the link target, so the hit area matches what's on screen. */
+/* Whole card is the link target, so the hit area matches what's on screen.
+   Padding moves to .post-content so the cover can run edge to edge; overflow
+   is clipped so the cover's square corners take the card's radius. */
 .post {
-  gap: 12px;
-  padding: 26px clamp(20px, 2.4vw, 30px) 24px;
+  gap: 0;
+  padding: 0;
+  overflow: hidden;
   color: inherit;
   text-decoration: none;
   border: 1px solid var(--color-neutral-800);
@@ -918,6 +998,52 @@ section[id] {
     transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1),
     border-color 0.35s ease,
     box-shadow 0.35s ease;
+}
+
+/* ── post covers ──────────────────────────────────────────────────────────
+   `aspect-ratio` holds the box from the first paint, so the grid never
+   reflows when an image decodes — and it means the gradient fallback and a
+   real photograph occupy exactly the same space. */
+.post-cover {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-bottom: 1px solid var(--color-neutral-800);
+}
+
+/* The fallback, on a pseudo-element rather than the container: `hue-rotate`
+   has to reach the gradient without touching an <img> layered over it. */
+.post-cover::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      120% 100% at 12% 0%,
+      color-mix(in srgb, var(--color-accent) 58%, transparent),
+      transparent 62%
+    ),
+    linear-gradient(150deg, var(--color-accent-900), var(--color-surface) 72%);
+  filter: hue-rotate(var(--cover-shift, 0deg));
+}
+
+/* Sits above the gradient, which then acts as the loading placeholder —
+   there is no blank frame between layout and decode. */
+.post-cover img {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: scale 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.post-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 22px clamp(20px, 2.4vw, 30px) 24px;
 }
 
 .post:hover {
@@ -942,9 +1068,18 @@ section[id] {
   margin-top: 4px;
 }
 
+/* Only on a real hover device — on touch this would latch on first tap. */
+@media (hover: hover) {
+  .post:hover .post-cover img {
+    scale: 1.04;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .post { transition: border-color 0.35s ease; }
   .post:hover { transform: none; }
+  .post-cover img { transition: none; }
+  .post:hover .post-cover img { scale: 1; }
 }
 
 /* ── newsletter ───────────────────────────────────────────────────────── */
