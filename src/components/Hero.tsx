@@ -1,4 +1,5 @@
 import MeshCanvas from './MeshCanvas'
+import Typewriter from './Typewriter'
 
 export default function Hero() {
   return (
@@ -7,7 +8,7 @@ export default function Hero() {
       <div className="container hero-inner">
         <span className="eyebrow eyebrow-center">Recoil Labs</span>
         <h1 className="hero-title">
-          Building intelligent systems for an open digital world
+          <Typewriter text="Building intelligent systems for an open digital world" />
         </h1>
         <p className="hero-lede">
           Recoil Labs is a technology and research lab working at the intersection of

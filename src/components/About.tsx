@@ -1,4 +1,5 @@
 import { revealDelay } from '../lib/reveal'
+import RevealText from './RevealText'
 
 const FACTS = ['Founded in 2026', 'Based in Nigeria', 'Building for the world']
 
@@ -6,11 +7,13 @@ export default function About() {
   return (
     <section id="about" className="container about">
       <div className="about-split">
-        <div data-reveal>
-          <span className="eyebrow">About</span>
-          <h2 className="section-title">
+        <div>
+          <span className="eyebrow" data-reveal>
+            About
+          </span>
+          <RevealText as="h2" className="section-title">
             A technology and research lab building products and solving hard problems
-          </h2>
+          </RevealText>
         </div>
         <div className="prose about-prose" data-reveal style={revealDelay(120)}>
           <p>

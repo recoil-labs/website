@@ -1,4 +1,6 @@
 import { revealDelay } from '../lib/reveal'
+import RevealText from './RevealText'
+import FlowScrub from './FlowScrub'
 
 export default function Approach() {
   return (
@@ -6,9 +8,9 @@ export default function Approach() {
       <span className="eyebrow eyebrow-center" data-reveal>
         Our approach
       </span>
-      <h2 className="section-title" data-reveal style={revealDelay(80)}>
+      <RevealText as="h2" className="section-title">
         Complex systems shouldn’t require complex experiences
-      </h2>
+      </RevealText>
 
       <div className="prose approach-prose" data-reveal style={revealDelay(160)}>
         <p>
@@ -24,13 +26,7 @@ export default function Approach() {
         </p>
       </div>
 
-      <div className="flow" data-reveal>
-        <span className="flow-step">Intent</span>
-        <span className="flow-line" aria-hidden="true" />
-        <span className="flow-step">Intelligence</span>
-        <span className="flow-line flow-line-delayed" aria-hidden="true" />
-        <span className="flow-step flow-step-end">Execution</span>
-      </div>
+      <FlowScrub />
 
       <p className="approach-note" data-reveal style={revealDelay(120)}>
         Recoil represents the release of energy into motion. At Recoil Labs, we

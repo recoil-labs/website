@@ -1,4 +1,5 @@
 import { revealDelay } from '../lib/reveal'
+import RevealText from './RevealText'
 import { CONTACT_EMAIL } from './Contact'
 
 interface Service {
@@ -72,9 +73,9 @@ export default function BuildWithRecoil() {
       <span className="eyebrow eyebrow-center" data-reveal>
         Build with Recoil
       </span>
-      <h2 className="section-title" data-reveal style={revealDelay(80)}>
+      <RevealText as="h2" className="section-title">
         Have a complex idea that needs serious engineering?
-      </h2>
+      </RevealText>
       <p className="build-with-lede" data-reveal style={revealDelay(140)}>
         Recoil Labs partners with startups, organizations, and businesses to
         design and build software across artificial intelligence, blockchain,

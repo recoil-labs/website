@@ -1,8 +1,12 @@
 /* Page-level layout for the Recoil Labs site. Everything here is built from
    the Nocturne tokens in nocturne.css — no raw colors, no magic palette. */
 
+/* Native smooth scrolling is ScrollSmoother's job now — leaving it on makes
+   the browser ease to a target while ScrollSmoother eases to the same target
+   from the other side, and the two fight. The reduced-motion path wants
+   instant jumps anyway, so nothing here needs it back. */
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
 }
 
 body {
@@ -10,8 +14,11 @@ body {
   text-wrap: pretty;
 }
 
-/* Anchors the aurora layer to the full document rather than the viewport. */
-#root {
+/* Anchors the aurora layer to the full document rather than the viewport.
+   #smooth-content is the scrolling box once ScrollSmoother is up; #root
+   still matters on the reduced-motion path, where the content div is inert. */
+#root,
+#smooth-content {
   position: relative;
 }
 
@@ -202,7 +209,10 @@ section[id] {
   );
   flex-wrap: wrap;
   row-gap: var(--space-2);
-  position: sticky;
+  /* Fixed rather than sticky: the bar lives outside #smooth-content (see
+     App.tsx), so there is no scrolling ancestor for `sticky` to stick to. */
+  position: fixed;
+  inset-inline: 0;
   top: 0;
   z-index: 50;
   transition:
@@ -303,7 +313,9 @@ section[id] {
 
 .hero-inner {
   position: relative;
-  padding-block: 112px 84px;
+  /* The nav no longer takes up flow space above this, so its height is
+     folded into the top padding to keep the hero's original breathing room. */
+  padding-block: 168px 84px;
   text-align: center;
 }
 
@@ -319,6 +331,66 @@ section[id] {
   letter-spacing: -0.02em;
   margin: 0 auto 28px;
   max-width: 20ch;
+}
+
+/* ── typewriter ───────────────────────────────────────────────────────── */
+
+/* Both layers occupy the same single grid cell, so they wrap identically and
+   the taller of the two (always the complete ghost) sizes the box. */
+.typewriter {
+  display: grid;
+}
+
+.typewriter > * {
+  grid-area: 1 / 1;
+}
+
+/* Reserves the box and carries the accessible text. `opacity`, not
+   `visibility` or `clip`, so it stays in the accessibility tree — and so a
+   drag-select grabs the whole headline rather than however much has been
+   typed so far. */
+.typewriter-ghost {
+  opacity: 0;
+}
+
+.typewriter-live {
+  user-select: none;
+}
+
+/* Sits on the text baseline as a thin rule of accent, not a block cursor —
+   the headline is 84px tall and a full-height bar would read as a UI chrome
+   element rather than as punctuation. */
+.typewriter-caret {
+  display: inline-block;
+  width: 2px;
+  height: 0.78em;
+  translate: 0 0.08em;
+  margin-left: 0.06em;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    var(--color-accent) 18%,
+    var(--color-accent) 82%,
+    transparent
+  );
+  vertical-align: baseline;
+}
+
+/* Steady while typing — a caret that blinks mid-word looks like a dropped
+   frame. It only starts blinking once the line has landed. */
+.typewriter-caret.is-blinking {
+  animation: caret-blink 1.1s steps(1) infinite;
+}
+
+@keyframes caret-blink {
+  0%,
+  50% { opacity: 1; }
+  50.01%,
+  100% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .typewriter-caret { display: none; }
 }
 
 .hero-lede {
@@ -715,15 +787,22 @@ section[id] {
   line-height: 1.55;
 }
 
+/* The pinned box ScrollTrigger holds still while the sequence scrubs. It
+   owns the section's spacing and rule so that `.flow` itself carries no
+   margin — a margin here would collapse through the pin spacer and shift
+   the layout by 88px the moment the pin engages. */
+.flow-pin {
+  margin-top: 88px;
+  padding-top: 48px;
+  border-top: 1px solid var(--color-divider);
+}
+
 /* Intent → Intelligence → Execution, joined by travelling light. */
 .flow {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
   gap: clamp(16px, 3vw, 40px);
-  margin-top: 88px;
-  padding-top: 48px;
-  border-top: 1px solid var(--color-divider);
 }
 
 .flow-step {
@@ -731,6 +810,9 @@ section[id] {
   font-weight: 500;
   font-size: clamp(24px, 3vw, 40px);
   letter-spacing: -0.015em;
+  /* Full weight is the authored state; FlowScrub dims the later stages from
+     JS so the flow reads complete if the script never runs. */
+  opacity: 1;
 }
 
 .flow-step-end {
@@ -741,6 +823,13 @@ section[id] {
   flex: 1;
   min-width: 60px;
   height: 1px;
+  /* A faint constant rule under the travelling pulse. The pulse alone leaves
+     the connector invisible between passes, which was fine when it was pure
+     ambience — but FlowScrub now draws these lines in left to right as the
+     reader scrolls, and a stroke being drawn has to leave something behind
+     it. The pulse still rides on top; its gradient stops are transparent, so
+     this shows through. */
+  background-color: color-mix(in srgb, var(--color-accent) 38%, transparent);
   background-image: linear-gradient(
     90deg,
     transparent,

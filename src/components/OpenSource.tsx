@@ -1,4 +1,5 @@
 import { revealDelay } from '../lib/reveal'
+import RevealText from './RevealText'
 
 export default function OpenSource() {
   return (
@@ -6,9 +7,9 @@ export default function OpenSource() {
       <span className="eyebrow eyebrow-center" data-reveal>
         Open source
       </span>
-      <h2 className="section-title" data-reveal style={revealDelay(80)}>
+      <RevealText as="h2" className="section-title">
         Built in the open
-      </h2>
+      </RevealText>
 
       <div className="prose open-source-prose" data-reveal style={revealDelay(160)}>
         <p>

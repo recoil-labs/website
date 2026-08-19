@@ -1,4 +1,5 @@
 import { revealDelay } from '../lib/reveal'
+import RevealText from './RevealText'
 
 interface Post {
   kicker: string
@@ -57,9 +58,9 @@ export default function Writing() {
       <span className="eyebrow eyebrow-center" data-reveal>
         Writing
       </span>
-      <h2 className="section-title" data-reveal style={revealDelay(80)}>
+      <RevealText as="h2" className="section-title">
         Notes from the lab
-      </h2>
+      </RevealText>
 
       <div className="post-grid">
         {POSTS.map((post, i) => (

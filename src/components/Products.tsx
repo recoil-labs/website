@@ -1,4 +1,5 @@
 import { revealDelay } from '../lib/reveal'
+import RevealText from './RevealText'
 
 interface Product {
   name: string
@@ -44,9 +45,9 @@ export default function Products() {
       <span className="eyebrow eyebrow-center" data-reveal>
         Our products
       </span>
-      <h2 className="section-title" data-reveal style={revealDelay(80)}>
+      <RevealText as="h2" className="section-title">
         Two products, one idea
-      </h2>
+      </RevealText>
 
       <div className="product-grid">
         {PRODUCTS.map((product, i) => (

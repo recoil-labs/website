@@ -1,4 +1,5 @@
 import { revealDelay } from '../lib/reveal'
+import RevealText from './RevealText'
 
 /** The domains the lab works across, in products and partnerships alike. */
 const CAPABILITIES = [
@@ -30,11 +31,11 @@ export default function WhatWeBuild() {
       <span className="eyebrow" data-reveal>
         What we build
       </span>
-      <div className="build-split" data-reveal>
-        <h2 className="section-title">
+      <div className="build-split">
+        <RevealText as="h2" className="section-title">
           We build intelligent products and the technology behind them
-        </h2>
-        <div className="prose">
+        </RevealText>
+        <div className="prose" data-reveal>
           <p>
             The internet is becoming increasingly distributed, intelligent, and
             autonomous. But the infrastructure connecting people, organizations,
