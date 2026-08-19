@@ -1,4 +1,6 @@
 import { revealDelay } from '../lib/reveal'
+import { useSpotlight } from '../lib/spotlight'
+import RevealText from './RevealText'
 import { CONTACT_EMAIL } from './Contact'
 
 interface Service {
@@ -67,14 +69,18 @@ const CONSULTING = [
 ]
 
 export default function BuildWithRecoil() {
+  // On the section, not the grid: the consulting card sits outside the grid
+  // and should light up the same way.
+  const spotlight = useSpotlight<HTMLElement>()
+
   return (
-    <section id="build" className="container build-with">
+    <section id="build" className="container build-with" ref={spotlight}>
       <span className="eyebrow eyebrow-center" data-reveal>
         Build with Recoil
       </span>
-      <h2 className="section-title" data-reveal style={revealDelay(80)}>
+      <RevealText as="h2" className="section-title">
         Have a complex idea that needs serious engineering?
-      </h2>
+      </RevealText>
       <p className="build-with-lede" data-reveal style={revealDelay(140)}>
         Recoil Labs partners with startups, organizations, and businesses to
         design and build software across artificial intelligence, blockchain,
@@ -87,6 +93,7 @@ export default function BuildWithRecoil() {
             className="card elev-sm service"
             key={service.title}
             data-reveal
+            data-spotlight
             style={revealDelay(200 + i * 90)}
           >
             <h3>{service.title}</h3>
@@ -99,7 +106,7 @@ export default function BuildWithRecoil() {
         ))}
       </div>
 
-      <article className="card elev-md consulting" data-reveal>
+      <article className="card elev-md consulting" data-reveal data-spotlight>
         <div className="consulting-intro">
           <h3>Consulting</h3>
           <p>

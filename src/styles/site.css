@@ -1,8 +1,12 @@
 /* Page-level layout for the Recoil Labs site. Everything here is built from
    the Nocturne tokens in nocturne.css — no raw colors, no magic palette. */
 
+/* Native smooth scrolling is ScrollSmoother's job now — leaving it on makes
+   the browser ease to a target while ScrollSmoother eases to the same target
+   from the other side, and the two fight. The reduced-motion path wants
+   instant jumps anyway, so nothing here needs it back. */
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
 }
 
 body {
@@ -10,8 +14,11 @@ body {
   text-wrap: pretty;
 }
 
-/* Anchors the aurora layer to the full document rather than the viewport. */
-#root {
+/* Anchors the aurora layer to the full document rather than the viewport.
+   #smooth-content is the scrolling box once ScrollSmoother is up; #root
+   still matters on the reduced-motion path, where the content div is inert. */
+#root,
+#smooth-content {
   position: relative;
 }
 
@@ -172,18 +179,22 @@ section[id] {
 /* Section headline. Sizes are per-section; this holds the shared shape. */
 .section-title {
   font-family: var(--font-heading);
-  font-weight: 500;
-  font-size: clamp(30px, 3.4vw, 44px);
-  line-height: 1.14;
-  letter-spacing: -0.015em;
+  font-weight: var(--font-heading-weight);
+  font-size: clamp(30px, 3.4vw, 42px);
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-display);
   margin: 0;
 }
 
+/* Long-form copy sits on the body scale. The leading is kept looser than
+   the 1.45 that scale specifies: this is reading text at a 56ch measure,
+   not the dense UI copy the value was measured from. */
 .prose {
   display: grid;
   gap: 20px;
-  font-size: 16px;
+  font-size: 14.5px;
   line-height: 1.7;
+  letter-spacing: var(--tracking-body);
   color: color-mix(in srgb, var(--color-text) 78%, transparent);
   max-width: 56ch;
 }
@@ -202,7 +213,10 @@ section[id] {
   );
   flex-wrap: wrap;
   row-gap: var(--space-2);
-  position: sticky;
+  /* Fixed rather than sticky: the bar lives outside #smooth-content (see
+     App.tsx), so there is no scrolling ancestor for `sticky` to stick to. */
+  position: fixed;
+  inset-inline: 0;
   top: 0;
   z-index: 50;
   transition:
@@ -303,7 +317,9 @@ section[id] {
 
 .hero-inner {
   position: relative;
-  padding-block: 112px 84px;
+  /* The nav no longer takes up flow space above this, so its height is
+     folded into the top padding to keep the hero's original breathing room. */
+  padding-block: 168px 84px;
   text-align: center;
 }
 
@@ -311,14 +327,77 @@ section[id] {
   margin-bottom: 28px;
 }
 
+/* 80px at the top end is the measured hero size; the clamp is kept rather
+   than fixing it, since that site's 80px is a desktop-only value and this
+   headline is three lines rather than one word. */
 .hero-title {
   font-family: var(--font-heading);
-  font-weight: 500;
-  font-size: clamp(42px, 6vw, 84px);
-  line-height: 1.08;
-  letter-spacing: -0.02em;
+  font-weight: var(--font-heading-weight);
+  font-size: clamp(42px, 6vw, 80px);
+  line-height: var(--leading-hero);
+  letter-spacing: var(--tracking-hero);
   margin: 0 auto 28px;
   max-width: 20ch;
+}
+
+/* ── typewriter ───────────────────────────────────────────────────────── */
+
+/* Both layers occupy the same single grid cell, so they wrap identically and
+   the taller of the two (always the complete ghost) sizes the box. */
+.typewriter {
+  display: grid;
+}
+
+.typewriter > * {
+  grid-area: 1 / 1;
+}
+
+/* Reserves the box and carries the accessible text. `opacity`, not
+   `visibility` or `clip`, so it stays in the accessibility tree — and so a
+   drag-select grabs the whole headline rather than however much has been
+   typed so far. */
+.typewriter-ghost {
+  opacity: 0;
+}
+
+.typewriter-live {
+  user-select: none;
+}
+
+/* Sits on the text baseline as a thin rule of accent, not a block cursor —
+   the headline is 84px tall and a full-height bar would read as a UI chrome
+   element rather than as punctuation. */
+.typewriter-caret {
+  display: inline-block;
+  width: 2px;
+  height: 0.78em;
+  translate: 0 0.08em;
+  margin-left: 0.06em;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    var(--color-accent) 18%,
+    var(--color-accent) 82%,
+    transparent
+  );
+  vertical-align: baseline;
+}
+
+/* Steady while typing — a caret that blinks mid-word looks like a dropped
+   frame. It only starts blinking once the line has landed. */
+.typewriter-caret.is-blinking {
+  animation: caret-blink 1.1s steps(1) infinite;
+}
+
+@keyframes caret-blink {
+  0%,
+  50% { opacity: 1; }
+  50.01%,
+  100% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .typewriter-caret { display: none; }
 }
 
 .hero-lede {
@@ -554,6 +633,83 @@ section[id] {
   border: 1px solid var(--color-neutral-800);
 }
 
+/* ── card spotlight ───────────────────────────────────────────────────────
+   A highlight that follows the cursor across the card, positioned from the
+   `--mx`/`--my` that lib/spotlight.ts publishes. The fallback centres it,
+   so a card that has never been hovered — or one whose script never ran —
+   still lights up sensibly from the middle rather than the top-left corner. */
+
+.service,
+.consulting {
+  position: relative;
+  /* `transform` for the lift, never `translate`: the reveal owns `translate`
+     (see the scroll-reveal block above), and the two compose only because
+     they are kept on separate properties. */
+  transition:
+    transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1),
+    border-color 0.35s ease;
+}
+
+.service::before,
+.consulting::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    260px circle at var(--mx, 50%) var(--my, 50%),
+    color-mix(in srgb, var(--color-accent) 20%, transparent),
+    transparent 68%
+  );
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+/* The highlight is a child, so it would otherwise paint over the copy. */
+.service > *,
+.consulting > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Gated on a real hover device: on touch these would latch on first tap and
+   never release. */
+@media (hover: hover) {
+  .service:hover,
+  .consulting:hover {
+    transform: translateY(-3px);
+  }
+
+  .service:hover {
+    border-color: var(--color-accent-800);
+  }
+
+  .consulting:hover {
+    border-color: var(--color-accent);
+  }
+
+  .service:hover::before,
+  .consulting:hover::before {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .service,
+  .consulting,
+  .service::before,
+  .consulting::before {
+    transition: none;
+  }
+  /* The border still responds, so hover stays legible without the lift. */
+  .service:hover,
+  .consulting:hover {
+    transform: none;
+  }
+}
+
 .service h3 {
   margin: 0;
   font-family: var(--font-heading);
@@ -715,15 +871,22 @@ section[id] {
   line-height: 1.55;
 }
 
+/* The pinned box ScrollTrigger holds still while the sequence scrubs. It
+   owns the section's spacing and rule so that `.flow` itself carries no
+   margin — a margin here would collapse through the pin spacer and shift
+   the layout by 88px the moment the pin engages. */
+.flow-pin {
+  margin-top: 88px;
+  padding-top: 48px;
+  border-top: 1px solid var(--color-divider);
+}
+
 /* Intent → Intelligence → Execution, joined by travelling light. */
 .flow {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
   gap: clamp(16px, 3vw, 40px);
-  margin-top: 88px;
-  padding-top: 48px;
-  border-top: 1px solid var(--color-divider);
 }
 
 .flow-step {
@@ -731,6 +894,9 @@ section[id] {
   font-weight: 500;
   font-size: clamp(24px, 3vw, 40px);
   letter-spacing: -0.015em;
+  /* Full weight is the authored state; FlowScrub dims the later stages from
+     JS so the flow reads complete if the script never runs. */
+  opacity: 1;
 }
 
 .flow-step-end {
@@ -741,6 +907,13 @@ section[id] {
   flex: 1;
   min-width: 60px;
   height: 1px;
+  /* A faint constant rule under the travelling pulse. The pulse alone leaves
+     the connector invisible between passes, which was fine when it was pure
+     ambience — but FlowScrub now draws these lines in left to right as the
+     reader scrolls, and a stroke being drawn has to leave something behind
+     it. The pulse still rides on top; its gradient stops are transparent, so
+     this shows through. */
+  background-color: color-mix(in srgb, var(--color-accent) 38%, transparent);
   background-image: linear-gradient(
     90deg,
     transparent,
@@ -818,10 +991,13 @@ section[id] {
   gap: 20px;
 }
 
-/* Whole card is the link target, so the hit area matches what's on screen. */
+/* Whole card is the link target, so the hit area matches what's on screen.
+   Padding moves to .post-content so the cover can run edge to edge; overflow
+   is clipped so the cover's square corners take the card's radius. */
 .post {
-  gap: 12px;
-  padding: 26px clamp(20px, 2.4vw, 30px) 24px;
+  gap: 0;
+  padding: 0;
+  overflow: hidden;
   color: inherit;
   text-decoration: none;
   border: 1px solid var(--color-neutral-800);
@@ -829,6 +1005,52 @@ section[id] {
     transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1),
     border-color 0.35s ease,
     box-shadow 0.35s ease;
+}
+
+/* ── post covers ──────────────────────────────────────────────────────────
+   `aspect-ratio` holds the box from the first paint, so the grid never
+   reflows when an image decodes — and it means the gradient fallback and a
+   real photograph occupy exactly the same space. */
+.post-cover {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-bottom: 1px solid var(--color-neutral-800);
+}
+
+/* The fallback, on a pseudo-element rather than the container: `hue-rotate`
+   has to reach the gradient without touching an <img> layered over it. */
+.post-cover::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      120% 100% at 12% 0%,
+      color-mix(in srgb, var(--color-accent) 58%, transparent),
+      transparent 62%
+    ),
+    linear-gradient(150deg, var(--color-accent-900), var(--color-surface) 72%);
+  filter: hue-rotate(var(--cover-shift, 0deg));
+}
+
+/* Sits above the gradient, which then acts as the loading placeholder —
+   there is no blank frame between layout and decode. */
+.post-cover img {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: scale 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.post-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 22px clamp(20px, 2.4vw, 30px) 24px;
 }
 
 .post:hover {
@@ -853,9 +1075,18 @@ section[id] {
   margin-top: 4px;
 }
 
+/* Only on a real hover device — on touch this would latch on first tap. */
+@media (hover: hover) {
+  .post:hover .post-cover img {
+    scale: 1.04;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .post { transition: border-color 0.35s ease; }
   .post:hover { transform: none; }
+  .post-cover img { transition: none; }
+  .post:hover .post-cover img { scale: 1; }
 }
 
 /* ── newsletter ───────────────────────────────────────────────────────── */

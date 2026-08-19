@@ -44,8 +44,31 @@
   --color-accent-2-900: #2b293a;
 
   --font-heading: 'Inter', system-ui, sans-serif;
-  --font-heading-weight: 500;
   --font-body: 'Inter', system-ui, sans-serif;
+
+  /* ── type scale ─────────────────────────────────────────────────────────
+     Metrics measured off antigravity.google's computed styles. The typeface
+     itself is *not* copied: that site sets "Google Sans Flex", which is
+     Google's proprietary brand face and not licensed for use elsewhere — so
+     these land on the Inter already self-hosted here.
+
+     Three things carry the look, more than the sizes do:
+       · Headings sit at weight 450, lighter than the 500 they were. Inter is
+         a 400–700 variable font, so the half-step is a real weight and not
+         a synthetic one.
+       · Headings track *negative* and lead very tight (1.04).
+       · Body text tracks *positive*. That is the counter-intuitive one, and
+         it is a large part of why their small text reads as open. */
+  --font-heading-weight: 450;
+  /* Display sizes pull together; the hero is the exception and sits at
+     normal tracking, since at 80px the negative value starts to crowd. */
+  --tracking-display: -0.017em;
+  --tracking-hero: normal;
+  --tracking-body: 0.011em;
+  --tracking-ui: -0.0074em;
+  --leading-hero: 1.1;
+  --leading-display: 1.04;
+  --leading-body: 1.45;
 
   --space-1: 2.8px;
   --space-2: 5.6px;
@@ -80,8 +103,9 @@ body {
   background: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-body);
-  font-size: 15px;
-  line-height: 1.55;
+  font-size: 14.5px;
+  line-height: var(--leading-body);
+  letter-spacing: var(--tracking-body);
   font-weight: 400;
 }
 
@@ -93,8 +117,9 @@ h5,
 h6 {
   font-family: var(--font-heading);
   font-weight: var(--font-heading-weight);
-  line-height: 1.12;
-  letter-spacing: -0.015em;
+  line-height: var(--leading-display);
+  /* Headings opt out of the body's positive tracking. */
+  letter-spacing: var(--tracking-display);
   margin: 0 0 var(--space-2);
 }
 
@@ -158,9 +183,11 @@ a {
   cursor: pointer;
   text-decoration: none;
   font-family: var(--font-heading);
-  font-weight: var(--font-heading-weight);
-  font-size: 14px;
+  /* 500, not the heading 450: at 13.5px the lighter weight goes limp. */
+  font-weight: 500;
+  font-size: 13.5px;
   line-height: 1.2;
+  letter-spacing: var(--tracking-ui);
   color: var(--color-text);
   background: transparent;
   border: 1px solid transparent;
@@ -339,10 +366,14 @@ a {
   font-size: 18px;
   margin-right: auto;
 }
+/* Interface text is its own scale: smaller, a touch heavier, tracked
+   slightly tight — the opposite direction to the body copy. */
 .nav a {
   color: inherit;
   text-decoration: none;
-  font-size: 14px;
+  font-size: 13.5px;
+  font-weight: 500;
+  letter-spacing: var(--tracking-ui);
 }
 .nav a:hover,
 .nav a[aria-current='page'] {
