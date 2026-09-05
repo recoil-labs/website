@@ -1,3 +1,4 @@
+import { PRODUCTS, isExternal } from '../lib/products'
 import SocialLinks from './SocialLinks'
 
 export default function Footer() {
@@ -21,10 +22,17 @@ export default function Footer() {
 
       <div className="footer-col">
         <span className="footer-col-title">Products</span>
-        <a href="#products">RecoilPay</a>
-        <a href="https://civicos.ng/" target="_blank" rel="noreferrer noopener">
-          CivicOS
-        </a>
+        {PRODUCTS.map(({ name, href }) => (
+          <a
+            key={name}
+            href={href}
+            {...(isExternal(href)
+              ? { target: '_blank', rel: 'noreferrer noopener' }
+              : {})}
+          >
+            {name}
+          </a>
+        ))}
       </div>
 
       <div className="footer-col">
