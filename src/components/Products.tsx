@@ -10,7 +10,7 @@ const PRODUCTS: Product[] = [
     tagline: 'AI-powered Intent-based execution for the multichain economy.',
     body: 'RecoilPay makes complex blockchain transactions simpler by allowing users to express what they want to accomplish rather than manually navigating chains, bridges, exchanges, liquidity sources, and transaction steps.',
     tags: ['Cross-chain', 'Intent-based', 'Payments', 'Solvers', 'AI', 'DeFi'],
-    href: '#contact',
+    href: 'https://v2.recoilpay.com/',
     featured: true,
   },
   {
