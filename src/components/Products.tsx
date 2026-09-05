@@ -23,7 +23,7 @@ const PRODUCTS: Product[] = [
   },
   {
     name: 'RecoilPay',
-    status: { label: 'Live product', tone: 'neutral' },
+    status: { label: 'Live product', tone: 'accent' },
     tagline: 'The original app for multichain payments.',
     body: 'The first release, still live. Cross-chain transfers and swaps in one place.',
     tags: ['Cross-chain', 'Payments', 'DeFi'],

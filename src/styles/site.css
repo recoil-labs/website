@@ -278,6 +278,20 @@ section[id] {
   animation: noct-mark 6s ease-in-out infinite;
 }
 
+/* The source art is black on white, so the served PNG is keyed to white ink
+   on transparency — it inherits the dark background rather than fighting it,
+   and `opacity` is what tones it down instead of a colour. */
+.brand-logo {
+  display: block;
+  width: auto;
+  height: 26px;
+}
+
+.site-footer .brand-logo {
+  height: 22px;
+  opacity: 0.9;
+}
+
 /* ── hero ─────────────────────────────────────────────────────────────── */
 
 .hero {

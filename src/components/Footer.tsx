@@ -5,7 +5,13 @@ export default function Footer() {
     <footer className="container site-footer" data-reveal>
       <div>
         <span className="footer-brand">
-          <span aria-hidden="true">◈</span>RECOIL LABS
+          <img
+            className="brand-logo"
+            src="/recoil-labs-logo.png"
+            alt="Recoil Labs"
+            width={349}
+            height={89}
+          />
         </span>
         <p className="footer-tagline">
           Building intelligent systems for an open digital world.
