@@ -493,7 +493,11 @@ section[id] {
 
 /* ── products ─────────────────────────────────────────────────────────── */
 
+/* The one section that opts out of the 1200px measure: four cards in a row
+   need the width, and the wider track reads as emphasis rather than drift.
+   Overrides `.container`, which this section still carries for its padding. */
 .products {
+  max-width: 1320px;
   padding-block: 112px 0;
 }
 
@@ -503,17 +507,21 @@ section[id] {
   text-align: center;
 }
 
+/* 264px, not 280px: four cards plus three gaps have to clear the 1176px the
+   widened section leaves, so the track floor sets how many fit per row. The
+   floor sits under the resulting 280px card rather than on it, so rounding
+   at the boundary cannot tip the row down to three. */
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(360px, 100%), 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(min(264px, 100%), 1fr));
+  gap: 18px;
 }
 
 .product {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  padding: 36px clamp(24px, 3vw, 40px) 32px;
+  gap: 14px;
+  padding: 30px clamp(20px, 2vw, 28px) 26px;
   background: var(--color-surface);
   border: 1px solid var(--color-neutral-800);
   /* transform, not translate — the reveal owns `translate`, so the two
@@ -545,27 +553,21 @@ section[id] {
   border-color: var(--color-accent-800);
 }
 
+/* Stacked, rather than the pill pinned to the title's right edge: at four-up
+   the card is ~252px, so a pill beside the title wrapped on the long names
+   and sat inline on the short ones — which left the taglines starting at
+   different heights across the row. Always two lines keeps the row aligned. */
 .product-head {
-  position: relative;
   display: flex;
-  align-items: baseline;
-  justify-content: center;
-  gap: 16px;
-}
-
-/* Out of flow, so the title centres on the card rather than on the space
-   the pill leaves behind. transform, not translate — see `.product`. */
-.product-head .tag {
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
 }
 
 .product-head h3 {
   font-family: var(--font-heading);
   font-weight: 500;
-  font-size: 30px;
+  font-size: clamp(21px, 1.8vw, 26px);
   line-height: 1.2;
   letter-spacing: -0.015em;
   margin: 0;
@@ -574,21 +576,25 @@ section[id] {
 .product-tagline {
   margin: 0;
   font-family: var(--font-heading);
-  font-size: 17px;
+  font-size: 16px;
   line-height: 1.5;
+  text-align: center;
+  text-wrap: balance;
   color: var(--color-accent-300);
 }
 
 .product-body {
   margin: 0;
-  font-size: 15.5px;
-  line-height: 1.7;
+  font-size: 15px;
+  line-height: 1.65;
+  text-align: center;
   color: color-mix(in srgb, var(--color-text) 78%, transparent);
 }
 
 .product-tags {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 8px;
   margin-top: 4px;
 }

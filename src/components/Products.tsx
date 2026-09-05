@@ -5,11 +5,11 @@ import RevealText from './RevealText'
 
 const PRODUCTS: Product[] = [
   {
-    name: 'RecoilPay',
-    status: { label: 'Live product', tone: 'accent' },
+    name: 'RecoilPay V2',
+    status: { label: 'In development', tone: 'neutral' },
     tagline: 'AI-powered Intent-based execution for the multichain economy.',
-    body: 'RecoilPay makes complex blockchain transactions simpler by allowing users to express what they want to accomplish rather than manually navigating chains, bridges, exchanges, liquidity sources, and transaction steps.',
-    tags: ['Cross-chain', 'Intent-based', 'Payments', 'Solvers', 'AI', 'DeFi'],
+    body: 'Express what you want on-chain. RecoilPay routes the bridges and swaps.',
+    tags: ['Intent-based', 'Cross-chain', 'AI'],
     href: 'https://v2.recoilpay.com/',
     featured: true,
   },
@@ -17,15 +17,25 @@ const PRODUCTS: Product[] = [
     name: 'CivicOS',
     status: { label: 'In development', tone: 'neutral' },
     tagline: 'AI-powered infrastructure for communities and institutions.',
-    body: 'CivicOS helps communities and organizations communicate, coordinate, understand local needs, and turn information into measurable action. It is developed as an open source project, in public.',
-    tags: [
-      'Open source',
-      'AI',
-      'Civic Technology',
-      'Communities',
-      'Accountability',
-    ],
+    body: 'Helps communities coordinate, understand local needs, and act on them.',
+    tags: ['Open source', 'Civic tech', 'AI'],
     href: 'https://civicos.ng/',
+  },
+  {
+    name: 'RecoilPay',
+    status: { label: 'Live product', tone: 'neutral' },
+    tagline: 'The original app for multichain payments.',
+    body: 'The first release, still live. Cross-chain transfers and swaps in one place.',
+    tags: ['Cross-chain', 'Payments', 'DeFi'],
+    href: 'https://recoilpay.com/',
+  },
+  {
+    name: 'Redline',
+    status: { label: 'In development', tone: 'neutral' },
+    tagline: 'Agents propose, you dispose.',
+    body: 'An AI agent proposes clause-level redlines. You accept or reject each one.',
+    tags: ['Contracts', 'Legal', 'AI'],
+    href: 'https://redline-orpin-nine.vercel.app/',
   },
 ]
 
@@ -36,7 +46,7 @@ export default function Products() {
         Our products
       </span>
       <RevealText as="h2" className="section-title">
-        Two products, one idea
+        Four products, one idea
       </RevealText>
 
       <div className="product-grid">
