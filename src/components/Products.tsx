@@ -1,18 +1,7 @@
 import { revealDelay } from '../lib/reveal'
+import ProductCard from './ProductCard'
+import type { Product } from './ProductCard'
 import RevealText from './RevealText'
-
-interface Product {
-  name: string
-  /** Rendered as the status pill beside the name. Omit to show none. */
-  status?: { label: string; tone: 'accent' | 'neutral' }
-  tagline: string
-  body: string
-  tags: string[]
-  /** In-page anchor, or an absolute URL for a product that has shipped. */
-  href: string
-  /** The flagship gets the accent wash and the solid button. */
-  featured?: boolean
-}
 
 const PRODUCTS: Product[] = [
   {
@@ -40,9 +29,6 @@ const PRODUCTS: Product[] = [
   },
 ]
 
-/** Absolute URLs leave the site; in-page anchors do not. */
-const isExternal = (href: string) => /^https?:\/\//.test(href)
-
 export default function Products() {
   return (
     <section id="products" className="container products">
@@ -55,45 +41,11 @@ export default function Products() {
 
       <div className="product-grid">
         {PRODUCTS.map((product, i) => (
-          <article
+          <ProductCard
             key={product.name}
-            className={`card elev-md product${product.featured ? ' product-featured' : ''}`}
-            data-reveal
+            product={product}
             style={revealDelay(160 + i * 120)}
-          >
-            <div className="product-head">
-              <h3>{product.name}</h3>
-              {product.status && (
-                <span className={`tag tag-${product.status.tone}`}>
-                  {product.status.label}
-                </span>
-              )}
-            </div>
-            <p className="product-tagline">{product.tagline}</p>
-            <p className="product-body">{product.body}</p>
-            <div className="product-tags">
-              {product.tags.map((tag) => (
-                <span className="tag tag-outline" key={tag}>
-                  {tag}
-                </span>
-              ))}
-            </div>
-            <a
-              className={`btn ${product.featured ? 'btn-primary' : 'btn-ghost'}`}
-              href={product.href}
-              // Derived from the href rather than carried as its own field,
-              // so there is no second flag to fall out of sync when a
-              // product graduates from an anchor to a real URL.
-              {...(isExternal(product.href)
-                ? { target: '_blank', rel: 'noreferrer noopener' }
-                : {})}
-            >
-              Explore {product.name}
-              <span className="btn-arrow" aria-hidden="true">
-                →
-              </span>
-            </a>
-          </article>
+          />
         ))}
       </div>
     </section>

@@ -1261,3 +1261,104 @@ section[id] {
   color: color-mix(in srgb, var(--color-text) 48%, transparent);
   align-self: end;
 }
+
+/* ── product card: particle layer, aura, scoped cursor ──────────────────
+   Added alongside the morphing particle field. The card becomes the
+   positioning context for three stacked layers: the aura behind it, the
+   particle canvas inside it, and the content above both. */
+
+.product-aura {
+  position: relative;
+  isolation: isolate;
+}
+
+/* Soft colour bloom that breathes behind the card. Pure CSS — a blurred
+   conic gradient on a pseudo-element, so it costs no JavaScript and no
+   bundle weight. Sits behind the card's own background via z-index. */
+.product-aura::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  border-radius: inherit;
+  background: conic-gradient(
+    from 0deg,
+    var(--color-accent),
+    #6ea8ff,
+    #63d3c4,
+    var(--color-accent)
+  );
+  opacity: 0;
+  filter: blur(18px);
+  transition: opacity 0.45s ease;
+  animation: aura-spin 14s linear infinite;
+}
+
+.product-aura:hover::before {
+  opacity: 0.34;
+}
+
+@keyframes aura-spin {
+  to {
+    rotate: 360deg;
+  }
+}
+
+/* The canvas fills the card and sits under the copy. pointer-events: none
+   so the card keeps receiving the hover that drives the morph. */
+.product-particles {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.55;
+  transition: opacity 0.45s ease;
+  border-radius: inherit;
+}
+
+.product-aura:hover .product-particles {
+  opacity: 1;
+}
+
+/* Re-establish the flex column the card had before the content was nested
+   one level deeper for stacking. */
+.product-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ── scoped cursor ──────────────────────────────────────────────────────
+   Only ever visible inside the element that owns it. Positioned by GSAP,
+   which writes x/y — top/left stay at 0 so the two never fight. */
+.cursor-dot {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 66px;
+  height: 66px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  color: #0f1018;
+  font-family: var(--font-ui, var(--font-body));
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: var(--tracking-ui);
+  pointer-events: none;
+  will-change: transform;
+  box-shadow: 0 6px 24px rgb(0 0 0 / 0.35);
+}
+
+/* No hover state on touch, and the OS motion preference wins outright —
+   the hook bails in both cases, so make sure nothing is left visible. */
+@media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .cursor-dot { display: none; }
+  .product-aura::before { animation: none; }
+}

@@ -1,0 +1,16 @@
+# Upload exclusions for `gcloud builds submit`.
+#
+# gcloud does NOT read .dockerignore when packaging the source it sends
+# to Cloud Build, so exclusions have to be repeated here.
+
+.git/
+.gitignore
+node_modules/
+dist/
+.env
+.env.*
+.DS_Store
+*.log
+
+# A 450KB single-file export of the site, not part of the build.
+recoil-labs-standalone.html

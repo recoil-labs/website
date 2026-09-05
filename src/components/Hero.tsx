@@ -1,10 +1,10 @@
-import MeshCanvas from './MeshCanvas'
+import ParticleField from './ParticleField'
 import Typewriter from './Typewriter'
 
 export default function Hero() {
   return (
     <section className="hero">
-      <MeshCanvas className="hero-mesh" />
+      <ParticleField className="hero-mesh" />
       <div className="container hero-inner">
         <span className="eyebrow eyebrow-center">Recoil Labs</span>
         <h1 className="hero-title">

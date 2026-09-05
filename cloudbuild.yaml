@@ -1,0 +1,20 @@
+# Cloud Build config for the Recoil Labs marketing site.
+#
+# The site reads no VITE_* variables, so there are no build args — the
+# bundle is fully static and identical across environments.
+
+steps:
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - build
+      - -t
+      - us-central1-docker.pkg.dev/$PROJECT_ID/recoil/recoil-labs:latest
+      - .
+
+images:
+  - us-central1-docker.pkg.dev/$PROJECT_ID/recoil/recoil-labs:latest
+
+options:
+  logging: CLOUD_LOGGING_ONLY
+
+timeout: 1800s

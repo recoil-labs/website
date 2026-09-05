@@ -1,0 +1,31 @@
+# Rendered by nginx at startup: files in /etc/nginx/templates/*.template
+# have ${VAR} substituted from the environment. Cloud Run supplies PORT.
+
+server {
+    listen       ${PORT};
+    server_name  _;
+    root         /usr/share/nginx/html;
+    index        index.html;
+
+    # Vite emits content-hashed asset filenames, so they can be cached
+    # indefinitely. index.html must NOT be, or a client keeps loading a
+    # stale bundle that references deleted assets after a deploy.
+    location /assets/ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+    }
+
+    # Self-hosted Inter subsets — same reasoning, and fonts are the
+    # heaviest thing on the page.
+    location /fonts/ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+    }
+
+    # React Router owns the URL space — unmatched paths fall through to
+    # the app shell so a refresh on a nested route does not 404.
+    location / {
+        try_files $uri $uri/ /index.html;
+        add_header Cache-Control "no-cache";
+    }
+}
