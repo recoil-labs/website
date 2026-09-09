@@ -1,3 +1,4 @@
+import { PRODUCTS, isExternal } from '../lib/products'
 import SocialLinks from './SocialLinks'
 
 export default function Footer() {
@@ -5,7 +6,13 @@ export default function Footer() {
     <footer className="container site-footer" data-reveal>
       <div>
         <span className="footer-brand">
-          <span aria-hidden="true">◈</span>RECOIL LABS
+          <img
+            className="brand-logo"
+            src="/recoil-labs-logo.png"
+            alt="Recoil Labs"
+            width={349}
+            height={89}
+          />
         </span>
         <p className="footer-tagline">
           Building intelligent systems for an open digital world.
@@ -15,10 +22,17 @@ export default function Footer() {
 
       <div className="footer-col">
         <span className="footer-col-title">Products</span>
-        <a href="#products">RecoilPay</a>
-        <a href="https://civicos.ng/" target="_blank" rel="noreferrer noopener">
-          CivicOS
-        </a>
+        {PRODUCTS.map(({ name, href }) => (
+          <a
+            key={name}
+            href={href}
+            {...(isExternal(href)
+              ? { target: '_blank', rel: 'noreferrer noopener' }
+              : {})}
+          >
+            {name}
+          </a>
+        ))}
       </div>
 
       <div className="footer-col">

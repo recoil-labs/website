@@ -1,21 +1,6 @@
+import { isExternal, type Product } from '../lib/products'
 import { useScopedCursor } from './CustomCursor'
 import MorphingParticles from './MorphingParticles'
-
-export interface Product {
-  name: string
-  /** Rendered as the status pill beside the name. Omit to show none. */
-  status?: { label: string; tone: 'accent' | 'neutral' }
-  tagline: string
-  body: string
-  tags: string[]
-  /** In-page anchor, or an absolute URL for a product that has shipped. */
-  href: string
-  /** The flagship gets the accent wash and the solid button. */
-  featured?: boolean
-}
-
-/** Absolute URLs leave the site; in-page anchors do not. */
-const isExternal = (href: string) => /^https?:\/\//.test(href)
 
 interface ProductCardProps {
   product: Product

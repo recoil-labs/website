@@ -42,10 +42,13 @@ export default function Nav() {
   return (
     <nav className={`nav site-nav${scrolled ? ' is-scrolled' : ''}`}>
       <span className="nav-brand">
-        <span className="brand-mark" aria-hidden="true">
-          ◈
-        </span>
-        Recoil Labs
+        <img
+          className="brand-logo"
+          src="/recoil-labs-logo.png"
+          alt="Recoil Labs"
+          width={349}
+          height={89}
+        />
       </span>
       {LINKS.map(({ id, label }) => (
         <a
