@@ -10,7 +10,7 @@ export default function Products() {
         Our products
       </span>
       <RevealText as="h2" className="section-title">
-        Four products, one idea
+        Six products, one idea
       </RevealText>
 
       <div className="product-grid">
