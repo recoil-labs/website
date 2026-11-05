@@ -507,8 +507,8 @@ section[id] {
 
 /* ── products ─────────────────────────────────────────────────────────── */
 
-/* The one section that opts out of the 1200px measure: four cards in a row
-   need the width, and the wider track reads as emphasis rather than drift.
+/* The one section that opts out of the 1200px measure: three cards in a row
+   want the width, and the wider track reads as emphasis rather than drift.
    Overrides `.container`, which this section still carries for its padding. */
 .products {
   max-width: 1320px;
@@ -521,13 +521,16 @@ section[id] {
   text-align: center;
 }
 
-/* 264px, not 280px: four cards plus three gaps have to clear the 1176px the
-   widened section leaves, so the track floor sets how many fit per row. The
-   floor sits under the resulting 280px card rather than on it, so rounding
-   at the boundary cannot tip the row down to three. */
+/* Three per row at most, so six cards make two full rows rather than four
+   and a stray two. The track floor is a third of the row (less the two gaps),
+   or 264px once that is narrower, which drops the grid to two and then one
+   column; min() with 100% keeps a single card from overflowing a phone. */
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(264px, 100%), 1fr));
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(min(100%, max(264px, (100% - 2 * 18px) / 3)), 1fr)
+  );
   gap: 18px;
 }
 
@@ -567,8 +570,8 @@ section[id] {
   border-color: var(--color-accent-800);
 }
 
-/* Stacked, rather than the pill pinned to the title's right edge: at four-up
-   the card is ~252px, so a pill beside the title wrapped on the long names
+/* Stacked, rather than the pill pinned to the title's right edge: two-up on
+   a tablet the card is ~280px, so a pill beside the title wrapped on the long names
    and sat inline on the short ones — which left the taglines starting at
    different heights across the row. Always two lines keeps the row aligned. */
 .product-head {
