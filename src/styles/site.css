@@ -1307,8 +1307,8 @@ section[id] {
   background: conic-gradient(
     from 0deg,
     var(--color-accent),
-    #6ea8ff,
-    #63d3c4,
+    var(--color-accent-2),
+    var(--color-highlight),
     var(--color-accent)
   );
   opacity: 0;
@@ -1369,7 +1369,7 @@ section[id] {
   height: 66px;
   border-radius: 50%;
   background: var(--color-accent);
-  color: #0f1018;
+  color: var(--color-bg);
   font-family: var(--font-ui, var(--font-body));
   font-size: 12px;
   font-weight: 600;

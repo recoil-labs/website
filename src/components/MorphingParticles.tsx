@@ -324,8 +324,8 @@ export default function MorphingParticles({
     gl.bindVertexArray(null)
 
     const css = getComputedStyle(document.documentElement)
-    const color = hexToRgb((css.getPropertyValue('--color-text') || '#e9e9ed').trim())
-    const accent = hexToRgb((css.getPropertyValue('--color-accent') || '#9184d9').trim())
+    const color = hexToRgb((css.getPropertyValue('--color-text') || '#f3f2f8').trim())
+    const accent = hexToRgb((css.getPropertyValue('--color-accent') || '#8d87cd').trim())
 
     /* ── sizing ───────────────────────────────────────────────────────── */
 
