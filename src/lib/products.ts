@@ -48,7 +48,7 @@ export const PRODUCTS: Product[] = [
     tagline: 'Cross-chain messaging with proof.',
     body: 'Contracts message contracts on other chains, and the receiver can trust where it came from.',
     tags: ['Interoperability', 'Open source', 'Developers'],
-    href: 'https://link.recoilpay.com/',
+    href: 'https://recoillink.org/',
   },
   {
     name: 'CivicOS',
