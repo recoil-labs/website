@@ -3,45 +3,48 @@
    section stylesheet. Page-level layout lives in site.css. */
 
 :root {
-  --color-bg: #161826;
-  --color-surface: #232532;
-  --color-text: #e9e9ed;
-  --color-accent: #9184d9; /* the product's blurple — OKLCH hue 289.2, the hue
-     of the app's own Pro accent (#9a8fe0), at L 0.660 and C 0.125 */
-  --color-accent-2: #a7a1db; /* same hue, L 0.734, chroma at a 2:3 proportion */
-  --color-divider: color-mix(in srgb, #e9e9ed 16%, transparent);
+  /* Palette from the Media Kit: the logo's lavender, the neon violet of the
+     glow artwork, and the deep indigo → violet gradient of the backgrounds,
+     all on a violet-tinted near-black. */
+  --color-bg: #0b0716;
+  --color-surface: #161029;
+  --color-text: #f3f2f8;
+  --color-accent: #8d87cd; /* the logo's lavender stroke */
+  --color-accent-2: #7b3ff2; /* neon violet edge-glow */
+  --color-highlight: #8ae8f8; /* cyan star dots on the gradient artwork */
+  --color-divider: color-mix(in srgb, #f3f2f8 16%, transparent);
 
-  /* Tonal ramps — generated in OKLCH on one shared lightness scale, so the
-     same step of any role matches the others in visual value. */
-  --color-neutral-100: #f3f5fe;
-  --color-neutral-200: #e4e7f5;
-  --color-neutral-300: #cfd3e5;
-  --color-neutral-400: #b2b6ca;
-  --color-neutral-500: #9397ab;
-  --color-neutral-600: #75798c;
-  --color-neutral-700: #595d6c;
-  --color-neutral-800: #3f424d;
-  --color-neutral-900: #292b31;
+  /* Tonal ramps. Neutrals carry a faint violet tint so greys sit on the
+     brand ground; the accent ramps descend into the Media Kit's indigo. */
+  --color-neutral-100: #f5f4fa;
+  --color-neutral-200: #e6e3f0;
+  --color-neutral-300: #cfcadf;
+  --color-neutral-400: #b1abc6;
+  --color-neutral-500: #928ba9;
+  --color-neutral-600: #746d8b;
+  --color-neutral-700: #58526d;
+  --color-neutral-800: #3d384f;
+  --color-neutral-900: #262233;
 
-  --color-accent-100: #f5f4ff;
-  --color-accent-200: #e7e5fe;
-  --color-accent-300: #d2cefd;
-  --color-accent-400: #b5abfc;
-  --color-accent-500: #968ae0;
-  --color-accent-600: #796cbf;
-  --color-accent-700: #5d5294;
-  --color-accent-800: #423a6a;
-  --color-accent-900: #2b2741;
+  --color-accent-100: #f4f3ff;
+  --color-accent-200: #e6e4fb;
+  --color-accent-300: #cfcbf3;
+  --color-accent-400: #b0aae6;
+  --color-accent-500: #8d87cd;
+  --color-accent-600: #6f5fc4;
+  --color-accent-700: #52079f; /* gradient, lower edge */
+  --color-accent-800: #350773; /* gradient, mid */
+  --color-accent-900: #1e074b; /* gradient, upper edge */
 
-  --color-accent-2-100: #f5f4ff;
-  --color-accent-2-200: #e7e5fe;
-  --color-accent-2-300: #d2cefd;
-  --color-accent-2-400: #b5afe8;
-  --color-accent-2-500: #9690c9;
-  --color-accent-2-600: #7972a9;
-  --color-accent-2-700: #5c5783;
-  --color-accent-2-800: #423e5d;
-  --color-accent-2-900: #2b293a;
+  --color-accent-2-100: #f1e9ff;
+  --color-accent-2-200: #e0ccff;
+  --color-accent-2-300: #c39cf7;
+  --color-accent-2-400: #a26ff5;
+  --color-accent-2-500: #7b3ff2;
+  --color-accent-2-600: #6224d6;
+  --color-accent-2-700: #4b0694;
+  --color-accent-2-800: #350773;
+  --color-accent-2-900: #1e074b;
 
   --font-heading: 'Inter', system-ui, sans-serif;
   --font-body: 'Inter', system-ui, sans-serif;
@@ -83,11 +86,11 @@
 
   /* Elevation — a hairline edge plus ambient darkness, derived from the
      ground rather than a generic drop shadow. */
-  --shadow-sm: 0 0 0 1px #3f424d;
+  --shadow-sm: 0 0 0 1px #3d384f;
   --shadow-md:
-    0 0 0 1px #595d6c, 0 6px 18px rgba(0, 0, 0, 0.55);
+    0 0 0 1px #58526d, 0 6px 18px rgba(0, 0, 0, 0.55);
   --shadow-lg:
-    0 0 0 1px #9397ab, 0 16px 40px rgba(0, 0, 0, 0.65);
+    0 0 0 1px #928ba9, 0 16px 40px rgba(0, 0, 0, 0.65);
 }
 
 /* — base — */
